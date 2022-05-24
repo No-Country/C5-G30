@@ -1,9 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
 import './App.css';
-import { BrowserRouter, Route, Switch, Routes } from "react-router-dom"
-import LandingPage from "./components/LandingPage.jsx"
-import AgendaTurnos from "./components/AgendaTurnos";
+import AppRouter from './routes/AppRouter';
 // import ListClients from "./components/ListClients.jsx"
 // import ListVentas from "./components/ListVentas.jsx"
 // import Informe from "./components/Informe.jsx"
@@ -13,18 +10,7 @@ import AgendaTurnos from "./components/AgendaTurnos";
 function App() {
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route exact path="/" element={<LandingPage/>}/>
-          <Route path="/home" element= {<AgendaTurnos/>}/>
-          {/* <Route path="/home" element= {<AgendaTurnos/>}/>
-          <Route path="/listClient" element={<ListClients/>}/>
-          <Route path="/listVentas" element={<ListVentas/>}/>
-          <Route path="/Informe" element={<Informe/>}/> */}
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <AppRouter />
     );
 }
 
