@@ -1,9 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom'
-import './App.css';
-import { BrowserRouter, Route, Switch, Routes } from "react-router-dom"
-import LandingPage from "./components/LandingPage.jsx"
+import React from "react";
+import ReactDOM from "react-dom";
+import "./App.css";
+import { BrowserRouter, Route, Switch, Routes } from "react-router-dom";
+import LandingPage from "./components/LandingPage.jsx";
 import AgendaTurnos from "./components/AgendaTurnos";
+import Login from "./components/LogRegister/LogInRegister";
 // import ListClients from "./components/ListClients.jsx"
 // import ListVentas from "./components/ListVentas.jsx"
 // import Informe from "./components/Informe.jsx"
@@ -11,13 +12,13 @@ import AgendaTurnos from "./components/AgendaTurnos";
 // import Home from "./components/Home"
 
 function App() {
-
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route exact path="/" element={<LandingPage/>}/>
-          <Route path="/home" element= {<AgendaTurnos/>}/>
+          <Route exact path="/" element={<LandingPage />} />
+          <Route path="/home" element={<AgendaTurnos />} />
+          <Route path="login" element={<Login />} />
           {/* <Route path="/home" element= {<AgendaTurnos/>}/>
           <Route path="/listClient" element={<ListClients/>}/>
           <Route path="/listVentas" element={<ListVentas/>}/>
@@ -25,16 +26,14 @@ function App() {
         </Routes>
       </div>
     </BrowserRouter>
-    );
+  );
 }
 
 export default App;
 
-
 /////////////////////////////////////////////
 // import React from 'react';
 // import axios from 'axios';
-
 
 // import './App.css';
 
@@ -49,7 +48,6 @@ export default App;
 //   componentDidMount = () => {
 //     this.getBlogPost();
 //   };
-
 
 //   getBlogPost = () => {
 //     axios.get('/api')
@@ -68,7 +66,6 @@ export default App;
 //     this.setState({ [name]: value });
 //   };
 
-
 //   submit = (event) => {
 //     event.preventDefault();
 
@@ -76,7 +73,6 @@ export default App;
 //       title: this.state.title,
 //       body: this.state.body
 //     };
-
 
 //     axios({
 //       url: '/api/save',
@@ -104,7 +100,6 @@ export default App;
 
 //     if (!posts.length) return null;
 
-
 //     return posts.map((post, index) => (
 //       <div key={index} className="blog-post__display">
 //         <h3>{post.title}</h3>
@@ -123,7 +118,7 @@ export default App;
 //         <h2>BIENVENIDO FORMATO</h2>
 //         <form onSubmit={this.submit}>
 //           <div className="form-input">
-//             <input 
+//             <input
 //               type="text"
 //               name="title"
 //               placeholder="Title"
@@ -140,7 +135,7 @@ export default App;
 //               value={this.state.body}
 //               onChange={this.handleChange}
 //             >
-              
+
 //             </textarea>
 //           </div>
 
@@ -154,6 +149,5 @@ export default App;
 //     );
 //   }
 // }
-
 
 // export default App;
