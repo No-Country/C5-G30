@@ -1,0 +1,100 @@
+.profile-container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+}
+
+.profile-container h2{
+    color: #0095af;
+}
+
+.avatar-container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+}
+
+.image-avatar-contain{
+    width: 100%;
+    border-radius: 90px;
+    -webkit-border-radius: 90px;
+    -moz-border-radius: 90px;
+    -ms-border-radius: 90px;
+    -o-border-radius: 90px;
+}
+
+.image-avatar-contain img{
+    width: 100%;
+    max-width: 200px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+}
+
+.form-avatar{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 15px 0 15px 0;
+}
+
+.form-avatar label{
+    display: inline-block;
+}
+.form-avatar input{
+    display: none;
+}
+
+.form-avatar button{
+    display: none;
+}
+
+
+.data-user-container, .form-password{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.data-form, .password-form{
+    width: 60%;
+}
+
+.input-profile, .input-password{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    
+}
+.input-profile input, .input-password input{
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    border: 0.5px solid rgb(190, 190, 190);
+    outline: none;
+}
+.button-container{
+    padding: 10px;
+}
+#submit-data-user, #submit-password-user{
+    display: none;
+}
+
+@media (min-width : 744px){
+
+}
