@@ -1,14 +1,12 @@
 const express = require('express');
-const Teacher = require('../models/teacher');
-const Materia = require('../models/materia');
+const Teacher = require('../database/models/teacher');
+const Materia = require('../database/models/materia');
 const router = express.Router();
 
-const User = require('../models/users')
+const User = require('../database/models/users')
 
 
 router.get('/getTurnos', async (req, res) => {
-
-
     const turnos = await User.find();
     console.log("turnos")
     //res.send("hola mundo")
