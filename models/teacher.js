@@ -12,10 +12,11 @@ const teacher=new Schema({
     email:{type:String, require:true},
     phone:{type:String, require:true},
     status:{type:Boolean, require:true},
-    materia:[{
-       type:Schema.Types.ObjectId,
-       ref:"Materia"
-    }]
+    // materias:[{
+    //    type:Schema.Types.ObjectId,
+    //    ref:'Materia',name:String
+    // }]
+    materias:[{type: Schema.Types.ObjectId, ref: 'Materia'}]
 })
 
-module.exports=mongoose.model("Teacher",teacher)
+module.exports=mongoose.model('Teacher',teacher)

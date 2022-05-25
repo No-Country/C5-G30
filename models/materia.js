@@ -4,12 +4,18 @@ const {Schema}=mongoose
 
 const materia=new Schema({
     code:{type:String,rquire:true},
-    name:{type:String,rquire:true},
+    name:{type:String,require:true},
     nota:{type:Number,require:true},
-    profesor:[{
-       type:Schema.Types.ObjectId,
-       ref:"Profesor"
-    }]
+    // teachers:[{
+    //    type:Schema.Types.ObjectId,
+    //    ref:"Teacher",
+    //    lastName:String
+    // }]
+    teachers:{
+        type:Schema.Types.ObjectId,
+        ref:'Teacher'
+     },
+     idTeacher:{type:String,require:true}
 })
 
-module.exports=mongoose.model("Materia",materia)
+module.exports=mongoose.model('Materia',materia)
