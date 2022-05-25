@@ -11,9 +11,18 @@ router.get("/?=", StudentController.queryOptions);
 router.post(
   "/signup",
   [
-    check("username", "username can not be empty").not().isEmpty(),
-    check("email", "It must be a valid email").not().isEmpty().isEmail(),
-    check("password", "password can not be empty").not().isEmpty(),
+    check("DNI", "no points or commas added").not().isEmpty().isInt(),
+    check("fullname", "name can not be empty").not().isEmpty().isString(),
+    check("email", "It must be a valid email")
+      .not()
+      .isEmpty()
+      .isEmail()
+      .normalizeEmail(),
+    check("password", "password can not be empty")
+      .not()
+      .isEmpty(),
+      .isLength({ min:8, max:16 }),
+      .isStrongPassword(),
     validateFields,
   ],
   StudentController.newStudent
@@ -22,7 +31,6 @@ router.post(
 router.post(
   "/signin",
   [
-    check("username", "username can not be empty").not().isEmpty(),
     check("email", "It must be a valid email").not().isEmpty().isEmail(),
     check("password", "password can not be empty").not().isEmpty(),
     validateFields,
