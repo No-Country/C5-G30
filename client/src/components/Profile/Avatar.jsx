@@ -1,6 +1,9 @@
 import React from "react";
 
 const Avatar = () => {
+
+  
+
   return (
     <div className="avatar-container">
       <div className="image-avatar-contain">

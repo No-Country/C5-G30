@@ -112,6 +112,10 @@
     display: none;
 }
 
+#submit-data-user:hover, #submit-password-user:hover, #edit-data-user:hover, #edit-password-user:hover{
+    background-color: #f7e3a5;
+}
+
 @media (min-width : 744px){
     .input-profile, .input-password{
         display: flex;
