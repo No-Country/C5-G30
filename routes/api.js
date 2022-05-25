@@ -37,7 +37,7 @@ router.post("/turno", async (req, res, next) => {
 });
 
 ////////////////////////TEACHER//////////////////////////////
-router.post("/addTeacher/:id", async (req, res, next) => {
+router.post("/addTeacher", async (req, res, next) => {
 
     const { firtsName, lastName, dni, address, country, province, email, phone, status } = req.body;
     const teacher = new Teacher({
@@ -51,41 +51,40 @@ router.post("/addTeacher/:id", async (req, res, next) => {
         phone: phone,
         status: status
     })
-
-    try {
-        const materia = await Materia.findById(req.params.id)
-        console.log(materia)
-        await teacher.save()
-        if (teacher.materias) {
-            teacher.materias.push(materia)
-            await materia.save()
-            res.send(teacher)
-            res.json({
-                status: "teacher agendado"
-            })
-        }
-    }
-    catch (err) {
-        next(err);
-    }
+    await teacher.save()
+    res.json({
+        status:"teacher creado"
+    })
+    // const materia = await Materia.findById(req.params.id)
+    // console.log(materia)
+    // teacher.materia = materia
+    // await teacher.save()
+    // teacher.materias.push(materia)
+    // materia.teachers.push(teacher)
+    // await materia.save()
+    // res.send(teacher)
+    // res.json({
+    //     status: "teacher creada"
+    // })
 });
 
 router.get('/getTeacher', async (req, res) => {
-    try {
-        // await Teacher.find({}, function (err,teacher) {
-        //     // Materia.populate(teacher,{path: 'materias'},function (err,teacher) {
-        //     //     res.json({
-        //     //         teacher: teacher
-        //     //     })
-        //     // })
-        // })
-        const buscado=await Teacher.find()
-        res.json({
-            buscado:buscado
-        })
-    } catch (error) {
-        console.log(error)
-    }
+    // try {
+    //     await Teacher.find({}, function (err, teacher) {
+    //         Materia.populate(teacher, { path: 'materias' }, function (err, teacher) {
+    //             res.json({
+    //                 teacher: teacher
+    //             })
+    //         })
+    //     })
+    // } catch (error) {
+    //     console.log(error)
+    // }
+    const buscado = await Teacher.find()
+    res.json({
+        buscado: buscado
+    })
+
 })
 
 /////////////////////////MATERIA//////////////////////////////
@@ -97,31 +96,34 @@ router.get('/getMateria', async (req, res, next) => {
     })
 })
 
-router.post('/postMateria/:_id', async (req, res, next) => {
-    
-    const { code, name, nota, idTeacher} = req.body
+router.post('/addMateria', async (req, res, next) => {
+
+    const { name} = req.body
     const materia = new Materia({
-        code: code,
-        name: name,
-        nota: nota,
-        idTeacher:idTeacher
+        name: name
+        //nota: nota
     })
-    try {
-        const teacher=await Teacher.findById(req.params.id)
-        console.log(teacher)
-        materia.teachers = teacher
-        await materia.save()
-        
-            teacher.materias.push(materia)
-            await teacher.save()
-            res.send(materia)
-            res.json({
-                status: "materia guardada"
-            })
-        
-    } catch (error) {
-        next(error)
-    }
+
+    materia.save()
+    res.json({
+        status:"materia creada"
+    })
+    // try {
+    //     const teacher = await Teacher.findById(req.params.id)
+    //     console.log(teacher)
+    //     materia.teacher = teacher
+    //     await materia.save()
+    //     teacher.materias.push(materia)
+    //     materia.teachers.push(teacher)
+    //     await teacher.save()
+    //     res.send(materia)
+    //     res.json({
+    //         status: "materia creada"
+    //     })
+
+    // } catch (error) {
+    //     next(error)
+    // }
 })
 
 
