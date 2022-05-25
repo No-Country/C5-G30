@@ -4,6 +4,8 @@ import './App.css';
 import { BrowserRouter, Route, Switch, Routes } from "react-router-dom"
 import LandingPage from "./components/LandingPage.jsx"
 import AgendaTurnos from "./components/AgendaTurnos";
+import Dashboard from './components/Dashboard';
+
 // import ListClients from "./components/ListClients.jsx"
 // import ListVentas from "./components/ListVentas.jsx"
 // import Informe from "./components/Informe.jsx"
@@ -18,6 +20,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<LandingPage/>}/>
           <Route path="/home" element= {<AgendaTurnos/>}/>
+          <Route path="/dashboard" element= {<Dashboard/>}/>
           {/* <Route path="/home" element= {<AgendaTurnos/>}/>
           <Route path="/listClient" element={<ListClients/>}/>
           <Route path="/listVentas" element={<ListVentas/>}/>
