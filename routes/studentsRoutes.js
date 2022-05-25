@@ -8,8 +8,27 @@ router.get("/", StudentController.getAllStudents);
 router.get("/:id", StudentController.getStudentById);
 router.get("/?=", StudentController.queryOptions);
 
-router.post("/signup", StudentController.newStudent);
-router.post("/signin", StudentController.loginStudent);
+router.post(
+  "/signup",
+  [
+    check("username", "username can not be empty").not().isEmpty(),
+    check("email", "It must be a valid email").not().isEmpty().isEmail(),
+    check("password", "password can not be empty").not().isEmpty(),
+    validateFields,
+  ],
+  StudentController.newStudent
+);
+
+router.post(
+  "/signin",
+  [
+    check("username", "username can not be empty").not().isEmpty(),
+    check("email", "It must be a valid email").not().isEmpty().isEmail(),
+    check("password", "password can not be empty").not().isEmpty(),
+    validateFields,
+  ],
+  StudentController.loginStudent
+);
 
 router.patch("/:id", StudentController.updateStudent);
 
