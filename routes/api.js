@@ -96,10 +96,11 @@ router.get('/getMateria', async (req, res, next) => {
 
 router.post('/addMateria', async (req, res, next) => {
 
-    const { name} = req.body
+    const {registro,name,campo} = req.body
     const materia = new Materia({
-        name: name
-        //nota: nota
+        registro:registro,
+        name: name,
+        campo: campo
     })
 
     materia.save()
