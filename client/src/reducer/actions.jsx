@@ -8,12 +8,12 @@ export const GET_CONTACTS = "GET_CONTACTS";
 export function getContacts(payload) {
   return async function (dispatch) {
     const listTurnos = await axios.get(
-      "api/getTurnos",
+      "api/getTeacher",
       {}
     );
     return dispatch({
       type: GET_CONTACTS,
-      payload: listTurnos.data.turnos,
+      payload: listTurnos.data.buscado,
     });
   };
 }

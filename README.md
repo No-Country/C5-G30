@@ -1,3 +1,6 @@
-### Build a MERN (MongoDB | Express | ReactJS | Nodejs) stack app from scratch
 
+<<<<<<< HEAD
+
+=======
  
+>>>>>>> d51b8ec2303181f8caf3f8afdc341c412d91620f
