@@ -18,10 +18,13 @@ router.post(
       .isEmpty()
       .isEmail()
       .normalizeEmail(),
-    check("password", "password can not be empty")
+    check(
+      "password",
+      "password can not be empty, must have at least 1 uppercasse letter, 1 number and 1 symbol"
+    )
       .not()
-      .isEmpty(),
-      .isLength({ min:8, max:16 }),
+      .isEmpty()
+      .isLength({ min: 8, max: 16 })
       .isStrongPassword(),
     validateFields,
   ],
