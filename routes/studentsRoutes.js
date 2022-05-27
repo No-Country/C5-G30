@@ -20,8 +20,8 @@ router.post(
       .normalizeEmail(),
     check("password", "password can not be empty")
       .not()
-      .isEmpty(),
-      .isLength({ min:8, max:16 }),
+      .isEmpty()
+      .isLength({ min:8, max:16 })
       .isStrongPassword(),
     validateFields,
   ],
