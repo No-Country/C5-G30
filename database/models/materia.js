@@ -10,7 +10,8 @@ const materia=new Schema({
     //nota:{type:Number,require:true},
     teachers:[{
         type:Schema.Types.ObjectId,
-        ref:'Teacher'
+        ref:'Teacher',
+        firstName:String
     }]
     
     // teachers:[{

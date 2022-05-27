@@ -35,11 +35,12 @@ router.post("/turno", async (req, res, next) => {
 });
 
 ////////////////////////TEACHER//////////////////////////////
-router.post("/addTeacher", async (req, res, next) => {
+// solicita id de materia
+router.post("/addTeacher/:id", async (req, res, next) => {
 
-    const { firtsName, lastName, dni, address, country, province, email, phone, status } = req.body;
+    const { firstName, lastName, dni, address, country, province, email, phone, status } = req.body;
     const teacher = new Teacher({
-        firtsName: firtsName,
+        firstName: firstName,
         lastName: lastName,
         dni: dni,
         address: address,
@@ -49,21 +50,26 @@ router.post("/addTeacher", async (req, res, next) => {
         phone: phone,
         status: status
     })
+
+try{
+    const materia = await Materia.findById(req.params.id)
+    console.log(materia.name,"--->nombre")
+    teacher.mat = materia
+    if(teacher.materias){
+        teacher.materias.push(materia.name)
+    }
     await teacher.save()
+    materia.teachers.push(teacher)
+    await materia.save()
+    res.send(teacher)
     res.json({
-        status:"teacher creado"
+        status: "teacher creada"
     })
-    // const materia = await Materia.findById(req.params.id)
-    // console.log(materia)
-    // teacher.materia = materia
-    // await teacher.save()
-    // teacher.materias.push(materia)
-    // materia.teachers.push(teacher)
-    // await materia.save()
-    // res.send(teacher)
-    // res.json({
-    //     status: "teacher creada"
-    // })
+}
+catch(error){
+next(error)
+}
+
 });
 
 router.get('/getTeacher', async (req, res) => {
@@ -85,13 +91,29 @@ router.get('/getTeacher', async (req, res) => {
 
 })
 
+router.get('/getTeacher/:id', async (req, res) => {
+    
+    const buscado = await Teacher.findById(req.params.id)
+    res.send(buscado)
+    res.json({
+        buscado: buscado
+    })
+
+})
+
 /////////////////////////MATERIA//////////////////////////////
 router.get('/getMateria', async (req, res, next) => {
-    const materia = await Materia.find()
-    console.log(materia)
-    res.json({
-        materia: materia
+    try{
+      await Materia.find({},function(err,materias){
+      Teacher.populate(materias,{path:"teachers"},function(err,materias){
+        res.json({
+            materias:materias
+        })
+      })
     })
+    }catch(err){
+      console.log(err)
+    }
 })
 
 router.post('/addMateria', async (req, res, next) => {
