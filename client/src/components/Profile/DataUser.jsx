@@ -1,13 +1,21 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import SelectCountry from "./SelectCountry";
+import SelectProvince from "./SelectProvince";
+
 
 const DataUser = () => {
-
   const inputsDisabled = ()=>{
     let $input = document.querySelectorAll('input')
+    let $select = document.querySelectorAll('select')
     $input.forEach((a, i)=>{
-      if (i > 7 ) {
+      if (i > 6 ) {
         return
       }
+      a.disabled = false
+    })
+    $select.forEach((a)=>{
       a.disabled = false
     })
     document.querySelector('#edit-data-user').style.display = 'none'
@@ -45,14 +53,8 @@ const DataUser = () => {
           <label htmlFor="email">Email</label>
           <input type="text" id="email" name="email" disabled />
         </div>
-        <div className="input-profile">
-          <label htmlFor="country">País</label>
-          <input type="text" id="country" name="country" disabled />
-        </div>
-        <div className="input-profile">
-          <label htmlFor="province">Provincia</label>
-          <input type="text" id="province" name="province" disabled />
-        </div>
+        <SelectCountry />
+        <SelectProvince />
         <div className="button-container">
           <button id="edit-data-user">Editar</button>
           <button id="submit-data-user" type="submit">

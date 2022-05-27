@@ -84,7 +84,7 @@
     padding: 10px;
     
 }
-.input-profile input, .input-password input{
+.input-profile input, .input-profile select, .input-password input{
     margin-top: 5px;
     padding: 5px;
     border-radius: 8px;
@@ -153,7 +153,10 @@
         width: 380px;
         max-width: 380px;
     }
-    .input-profile input, .input-password input{
+    .input-profile input, .input-profile select, .input-password input{
         padding: 10px;
     }
+    /* .input-profile select:disabled{
+        background-color: rgb(235, 235, 235);
+    } */
 }

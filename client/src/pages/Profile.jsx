@@ -1,21 +1,27 @@
 import React from 'react';
-import Avatar from '../components/Profile/Avatar';
-import ChangePassword from '../components/Profile/ChangePassword';
-import DataUser from '../components/Profile/DataUser';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import Loader from '../components/Load/Loader';
+import ProfileWrapper from '../components/Profile/ProfileWrapper';
 import '../styles/Profile.css'
 
 const Profile = () => {
+    const [dataUser, setDataUser] = useState();
+
+    const apiCall = ()=>{
+        
+    }
+
+    useEffect(() => {
+        setDataUser([1,2])
+    }, []);
+    
+    console.log(dataUser)
     return (
         <main className='profile-container'>
-            <h2>Perfil</h2>
-
-            <Avatar />
-
-            <h2>Datos Personales</h2>
-            <DataUser />
-
-            <h2>Cambiar Contraseña</h2>
-            <ChangePassword />
+            {
+                dataUser ? <ProfileWrapper /> : <Loader />
+            }
            
         </main>
     );
