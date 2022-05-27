@@ -22,7 +22,6 @@ const Profile = () => {
             {
                 dataUser ? <ProfileWrapper /> : <Loader />
             }
-           
         </main>
     );
 }

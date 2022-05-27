@@ -10,7 +10,7 @@ const DataUser = () => {
     let $input = document.querySelectorAll('input')
     let $select = document.querySelectorAll('select')
     $input.forEach((a, i)=>{
-      if (i > 6 ) {
+      if (i > 5 ) {
         return
       }
       a.disabled = false

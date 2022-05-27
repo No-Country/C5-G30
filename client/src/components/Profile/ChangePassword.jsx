@@ -4,7 +4,7 @@ const ChangePassword = () => {
   const inputsDisabledPassowrd = ()=>{
     let $input = document.querySelectorAll('input')
     $input.forEach((a, i)=>{
-      if (i < 8 ) {
+      if (i < 6 ) {
         return
       }
       a.disabled = false
