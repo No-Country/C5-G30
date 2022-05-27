@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
-const { Student } = require("./students");
-const { Materia } = require("./materia");
 
 const TaskSchema = new Schema({
+  title: {
+    type: String,
+    required: true
+  },
   fechaEntregada: () => {
     return Date.now();
   },
@@ -16,10 +18,13 @@ const TaskSchema = new Schema({
     ref: "student",
     required: true,
   },
-  grade: {
-    type: Number,
+  nota: Number,
+  classes: {
+    type: Object.SchemaTypes.Id,
+    ref: "classes",
     required: true,
-  },
+  }
+
 });
 
 const taskModel = mongoose.model("task", TaskSchema);
