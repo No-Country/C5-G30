@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8080; // Step 1
 const routes = require('./routes/api');
 const teacherRoutes=require('./routes/teacherRoutes')
 const classesRoutes=require('./routes/classesRoutes')
-const studentsRoutes=require('./routes/studentsRoutes')
+//const studentsRoutes=require('./routes/studentsRoutes')
 const tasksRoutes=require('./routes/tasksRoutes')
 
 
@@ -40,7 +40,7 @@ app.use(morgan('tiny'));
 app.use('/api', routes);
 app.use('/api', teacherRoutes);
 app.use('/api', classesRoutes);
-app.use('/api', studentsRoutes);
+//app.use('/api', studentsRoutes);
 app.use('/api', tasksRoutes);
 
 
