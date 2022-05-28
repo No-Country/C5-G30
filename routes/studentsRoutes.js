@@ -8,25 +8,25 @@ router.get("/", StudentController.getAllStudents);
 router.get("/:id", StudentController.getStudentById);
 router.get("/?=", StudentController.queryOptions);
 
-router.post(
-  "/signup",
-  [
-    check("DNI", "no points or commas added").not().isEmpty().isInt(),
-    check("fullname", "name can not be empty").not().isEmpty().isString(),
-    check("email", "It must be a valid email")
-      .not()
-      .isEmpty()
-      .isEmail()
-      .normalizeEmail(),
-    check("password", "password can not be empty")
-      .not()
-      .isEmpty(),
-      .isLength({ min:8, max:16 }),
-      .isStrongPassword(),
-    validateFields,
-  ],
-  StudentController.newStudent
-);
+// router.post(
+//   "/signup",
+//   [
+//     check("DNI", "no points or commas added").not().isEmpty().isInt(),
+//     check("fullname", "name can not be empty").not().isEmpty().isString(),
+//     check("email", "It must be a valid email")
+//       .not()
+//       .isEmpty()
+//       .isEmail()
+//       .normalizeEmail(),
+//     check("password", "password can not be empty")
+//       .not()
+//       .isEmpty(),
+//       .isLength({ min:8, max:16 }),
+//       .isStrongPassword(),
+//     validateFields,
+//   ],
+//   StudentController.newStudent
+// );
 
 router.post(
   "/signin",
