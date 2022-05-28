@@ -13,18 +13,6 @@ const materia=new Schema({
         ref:'Teacher',
         firstName:String
     }]
-    
-    // teachers:[{
-    //    type:Schema.Types.ObjectId,
-    //    ref:"Teacher",
-    //    lastName:String
-    // }]
-    // teachers:[{
-    //     type:Schema.Types.ObjectId,
-    //     ref:'Teacher'
-    //  }],
-
-    //  idTeacher:{type:String,require:true}
 })
 
 module.exports=mongoose.model('Materia',materia)
