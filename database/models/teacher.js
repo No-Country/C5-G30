@@ -3,8 +3,8 @@ const {Schema}=mongoose
 
 
 const teacher=new Schema({
-    firstName:{type:String,rquire:true},
-    lastName:{type:String,rquire:true},
+    firstName:{type:String,require:true},
+    lastName:{type:String,require:true},
     dni:{type:Number,require:true},
     address:{type:String, require:true},
     country:{type:String, require:true},
