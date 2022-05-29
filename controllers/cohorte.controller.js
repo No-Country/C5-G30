@@ -1,17 +1,17 @@
 const express = require('express');
-const Cohorte=require('../database/models/cohorte')
+const Cohorte = require('../database/models/cohorte')
 const Teacher = require('../database/models/teacher');
 const Materia = require('../database/models/materia');
 
 const getCohorte = async (req, res) => {
-    
-               const cohorte = await Cohorte.find()
-                res.json({
-                    cohorte: cohorte
-                })
-            
-                
-            
+
+    const cohorte = await Cohorte.find()
+    res.json({
+        cohorte: cohorte
+    })
+
+
+
 }
 
 const addCohorte = async (req, res) => {
@@ -40,7 +40,7 @@ const addCohorte = async (req, res) => {
     }
 }
 
-module.exports={
+module.exports = {
     getCohorte,
     addCohorte
 }
