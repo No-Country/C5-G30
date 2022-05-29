@@ -2,7 +2,7 @@ const express=require("express")
 const Materia=require("../database/models/materia")
 const Teacher = require('../database/models/teacher');
 const router=express.Router()
-
+const {addMateria}=require("../controllers/materia.controller")
 
 /////////////////////////MATERIA//////////////////////////////
 router.get('/getMateria', async (req, res, next) => {
@@ -38,22 +38,6 @@ router.put("/editMateria/:id", async (req, res, next) => {
 
 })
 
-
-
-
-router.post('/addMateria', async (req, res, next) => {
-
-    const { registro, name, campo } = req.body
-    const materia = new Materia({
-        registro: registro,
-        name: name,
-        campo: campo
-    })
-
-    materia.save()
-    res.json({
-        status: "materia creada"
-    })
-})
+router.post('/addMateria', addMateria)
 
 module.exports=router
