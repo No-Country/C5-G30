@@ -4,6 +4,7 @@ const Teacher = require('../database/models/teacher');
 const Materia = require('../database/models/materia');
 const Cohorte = require("../database/models/cohorte")
 const router = express.Router();
+const {getTeacher}=require("../controllers/teacher.controller")
 
 router.put("/editTeacher/:id", async (req, res) => {
     const { firstName, lastName, dni, address, country, province, email, phone, status } = req.body
@@ -29,29 +30,6 @@ router.put("/editTeacher/:id", async (req, res) => {
     }
 })
 
-router.put("/editTeacher/:id", async (req, res) => {
-    const { firstName, lastName, dni, address, country, province, email, phone, status } = req.body
-    const newTeacher = {
-        firstName: firstName,
-        lastName: lastName,
-        dni: dni,
-        address: address,
-        country: country,
-        province: province,
-        email: email,
-        phone: phone,
-        status: status
-    }
-    try {
-        await Teacher.findByIdAndUpdate(req.params.id, newTeacher, { userFindModify: false })
-        res.json({
-            status: "teacher actualizado"
-        })
-
-    } catch (err) {
-
-    }
-})
 ////////////////////////TEACHER//////////////////////////////
 // solicita id de materia
 router.post("/addTeacher/:id", async (req, res, next) => {
@@ -90,24 +68,9 @@ router.post("/addTeacher/:id", async (req, res, next) => {
 
 });
 
-router.get('/getTeacher', async (req, res) => {
-    // try {
-    //     await Teacher.find({}, function (err, teacher) {
-    //         Materia.populate(teacher, { path: 'materias' }, function (err, teacher) {
-    //             res.json({
-    //                 teacher: teacher
-    //             })
-    //         })
-    //     })
-    // } catch (error) {
-    //     console.log(error)
-    // }
-    const buscado = await Teacher.find()
-    res.json({
-        buscado: buscado
-    })
 
-})
+
+router.get('/getTeacher', getTeacher)
 
 router.get('/getTeacher/:id', async (req, res) => {
 

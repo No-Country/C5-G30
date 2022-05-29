@@ -4,37 +4,24 @@ const Teacher = require('../database/models/teacher');
 const Materia = require('../database/models/materia');
 const router=express.Router()
 
-router.post("/addCohorte", async (req, res) => {
-    const { name, idteacher, idmateria } = req.body
+const {getCohorte,addCohorte}=require("../controllers/cohorte.controller")
 
-    try {
-        const teacher = await Teacher.findById(idteacher)
-        const materia = await Materia.findById(idmateria)
 
-        const nameTeacher = teacher.firstName
-        const nameMateria = materia.name
 
-        const cohorte = new Cohorte({
-            name: name,
-            nameMateria: nameMateria,
-            nameTeacher: nameTeacher
-        })
+router.post("/addCohorte",addCohorte)
+    
 
-        await cohorte.save()
-        res.send(cohorte)
-        res.json({
-            status: "cohorte creado"
-        })
-    } catch (err) {
-        console.log(err)
-    }
-})
+// router.get("/getCohorte", async (req, res) => {
+//     try{
+//         const cohorte = await Cohorte.find()
+//         res.json({
+//             cohorte: cohorte
+//         })
+//     }catch(err){
+//         console.log(err)
+//     }
+// })
 
-router.get("/getCohorte", async (req, res) => {
-    const cohorte = await Cohorte.find()
-    res.json({
-        cohorte: cohorte
-    })
-})
+router.get('/getCohorte1', getCohorte)
 
 module.exports=router
