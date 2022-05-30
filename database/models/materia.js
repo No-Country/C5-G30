@@ -3,7 +3,7 @@ const {Schema}=mongoose
 
 
 const materia=new Schema({
-    registro:{type:String,rquire:true},
+    registro:{type:String,require:true},
     name:{type:String,require:true},
     //campo (materia) puede pertener a tecnologia,idioma,etc
     campo:{type:String,require:true},
