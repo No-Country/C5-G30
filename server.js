@@ -44,7 +44,7 @@ app.use('/api', teacherRoutes);
 app.use('/api', classesRoutes);
 //app.use('/api', studentsRoutes);
 app.use('/api', tasksRoutes);
-app.use('/api', materiaRoutes);
-app.use('/api', cohorteRoutes);
+app.use('/mat', materiaRoutes);
+app.use('/coho', cohorteRoutes);
 
 app.listen(PORT, console.log(`Server is starting at ${PORT}`));

@@ -1,5 +1,6 @@
 const express = require("express")
 const Materia = require('../database/models/materia');
+const Teacher = require('../database/models/teacher');
 
 const addMateria = async (req, res, next) => {
 
@@ -16,7 +17,8 @@ const addMateria = async (req, res, next) => {
     })
 }
 
-const getMateria = async (req, res, next) => {
+const getMateria = async (req, res) => {
+    
     try {
         await Materia.find({}, function (err, materias) {
             Teacher.populate(materias, { path: "teachers" }, function (err, materias) {
@@ -27,7 +29,7 @@ const getMateria = async (req, res, next) => {
         })
     } catch (err) {
         console.log(err)
-    }
+    }    
 }
 
 const editMateria = async (req, res, next) => {
