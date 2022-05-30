@@ -30,7 +30,7 @@ function TodoList() {
           <tbody>
             
             {listadoTurnos.map((el) => {
-              return <h4>{el.name}</h4>;
+              return <h4>{el.firtsName}</h4>;
             })}
           </tbody>
         </div>
