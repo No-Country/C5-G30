@@ -1,5 +1,6 @@
 const express = require("express")
 const Materia = require('../database/models/materia');
+const Teacher = require('../database/models/teacher');
 
 const addMateria = async (req, res, next) => {
 
