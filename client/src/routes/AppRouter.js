@@ -1,21 +1,20 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import LandingPage from "../components/LandingPage.jsx"
-import AgendaTurnos from "../components/AgendaTurnos";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom"
 
-import Login from "../components/LogRegister/LogInRegister";
+
+import Login from "../pages/LogInRegister";
 import UserRouter from './UserRouter.js';
 
 
-const AppRouter = () => {
+const AppRouter = ({store}) => {
+    
+
     return (
         <BrowserRouter>
                 <Routes>
+                    <Route exact path="/" element={!store ? <Navigate to="/login"/> : <Navigate to="/user/profile/"/>} />
                     <Route path="/login" element={<Login isLogin={true} />} />
-                    <Route path="/register" element={<Login isLogin={false} />} />
-                    <Route exact path="/" element={<LandingPage />} />
-                    <Route path="/home" element={<AgendaTurnos />} />
-                    
+                    <Route path="/register" element={<Login isLogin={false} />} />                
                     <Route path='/user/*' element={<UserRouter />} />
                 </Routes>
         </BrowserRouter>
