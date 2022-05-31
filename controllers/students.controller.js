@@ -1,10 +1,11 @@
 const { student } = require("../database/models/students");
 const httpStatus = require("../helpers/httpStatus");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const Token = require('../middleware/token');
 require("dotenv").config();
 
 class StudentController {
+
   static async newStudent(req, res) {
     try {
       const checkDNINameExist = await student.find({ DNI: req.body.DNI });
@@ -21,11 +22,9 @@ class StudentController {
     try {
       let newStudent = await student.create(req.body);
 
-      const checkToken = jwt.sign({ id: student.id }, process.env.SECRET, {
-        expiresIn: 86400, // 24 hours
-      });
+      const accessToken = Token.create(req.body.DNI, req.body.roleId);
 
-      res.status(httpStatus.OK).json({ newStudent, checkToken });
+      res.status(httpStatus.OK).json({ newStudent, accessToken });
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: error.array });
     }
@@ -81,9 +80,7 @@ class StudentController {
       );
 
       if (passwordIsValid) {
-        const okToken = jwt.sign({ id: student.id }, process.env.SECRET, {
-          expiresIn: 86400, // 24 hours
-        });
+        const okToken = Token.create(req.body.DNI, req.body.roleId);
 
         await res.status(200).json({
           fullname: student.fullname,

@@ -28,10 +28,10 @@ const StudentSchema = new Schema({
     maxLength: 16,
   },
   image: String,
-  classesId: [
+  materiaId: [
     {
       type: Object.SchemasTypes.Id,
-      ref: "Classes",
+      ref: "Materia",
     },
   ],
   roleId: {
