@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from 'axios'
 
-const SelectCountry = () => {
+const SelectCountry = ({country}) => {
     const [Country, setCountry] = useState();
 
     const apiCall = ()=>{
@@ -33,7 +33,7 @@ const SelectCountry = () => {
   return (
     <div className="input-profile">
       <label htmlFor="country">País</label>
-      <select name="country" id="country" value="Venezuela" disabled>
+      <select name="country" id="country" value={country} disabled>
         <option value="" key=""></option>
         { Country && Country.map( (e, i) => (
                <option value={e} key={i} >{e}</option>

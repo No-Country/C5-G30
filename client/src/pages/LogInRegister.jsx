@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import "./Log.css";
+import { Link } from "react-router-dom";
+import "../styles/Log.css";
 
-export default ({ isLogin }) => {
+export default function LoginInRegister({ isLogin }) {
   const [form, SetForm] = useState({
     email: "",
     password: "",
@@ -49,48 +50,58 @@ export default ({ isLogin }) => {
     <div id="login-background">
       <form id="login-body">
         <h2>{isLogin ? "Ingresa" : "Registrate"}</h2>
-        <div id="log-input-field-holder">
-          <h6>Email</h6>
-          <input
-            type="text"
-            id="log-input-field"
-            name="email"
-            value={form.email}
-            onChange={(e) => HandleChange(e)}
-          />
-        </div>
-        <div id="log-input-field-holder">
-          <h6>Contraseña</h6>
-          <input
-            type="password"
-            id="log-input-field"
-            name="password"
-            value={form.password}
-            onChange={(e) => HandleChange(e)}
-          />
-        </div>
-        {!isLogin ? (
+        <div className="input-contain-login">
           <div id="log-input-field-holder">
-            <h6>Confirmar contraseña</h6>
+            <h6>Email</h6>
             <input
-              type="password"
+              type="text"
               id="log-input-field"
-              name="password2"
-              value={form.password2}
+              name="email"
+              value={form.email}
               onChange={(e) => HandleChange(e)}
             />
           </div>
-        ) : (
-          ""
-        )}
+          <div id="log-input-field-holder">
+            <h6>Contraseña</h6>
+            <input
+              type="password"
+              id="log-input-field"
+              name="password"
+              value={form.password}
+              onChange={(e) => HandleChange(e)}
+            />
+          </div>
+          {!isLogin ? (
+            <div id="log-input-field-holder">
+              <h6>Confirmar contraseña</h6>
+              <input
+                type="password"
+                id="log-input-field"
+                name="password2"
+                value={form.password2}
+                onChange={(e) => HandleChange(e)}
+              />
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+
         <input
           type="submit"
           value={isLogin ? "Iniciar sesion" : "Registrate"}
           onClick={(e) => HandleSubmit(e)}
           id="log-input-button"
         ></input>
-        <a href="#">{isLogin ? "¿Olvidaste tu contraseña?" : ""}</a>
+        <div className="link-container-register-login">
+          <Link to={isLogin ? "/register" : "/login"}>
+            {isLogin
+              ? "No tienes cuenta? Registrate"
+              : "Tienes Cuenta? Inicia Sesión"}
+          </Link>
+          <a href="/">{isLogin ? "¿Olvidaste tu contraseña?" : ""}</a>
+        </div>
       </form>
     </div>
   );
-};
+}
