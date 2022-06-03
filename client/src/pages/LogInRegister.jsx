@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import "../styles/Log.css";
+import { useDispatch, useSelector } from 'react-redux'
+import { startLogin } from '../actions/authLogin'
 
 export default function LoginInRegister({ isLogin }) {
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [form, SetForm] = useState({
     email: "",
     password: "",
@@ -21,7 +26,7 @@ export default function LoginInRegister({ isLogin }) {
       error.push("La contraseña no debe tener mas de 16 caracteres");
     return error;
   };
-
+  const estado = useSelector((state) => state);
   const HandleSubmit = (e) => {
     e.preventDefault();
     if (!isLogin) {
@@ -39,6 +44,14 @@ export default function LoginInRegister({ isLogin }) {
         });
       }
     } else alert("Iniciando sesion");
+
+    dispatch(startLogin(e.target[0].value, e.target[1].value))
+    
+    
+    if (estado.auth.userGet) {
+      navigate('/')
+    }
+    
   };
 
   const HandleChange = (e) => {
@@ -48,7 +61,7 @@ export default function LoginInRegister({ isLogin }) {
 
   return (
     <div id="login-background">
-      <form id="login-body">
+      <form id="login-body" onSubmit={HandleSubmit}>
         <h2>{isLogin ? "Ingresa" : "Registrate"}</h2>
         <div className="input-contain-login">
           <div id="log-input-field-holder">
@@ -90,7 +103,6 @@ export default function LoginInRegister({ isLogin }) {
         <input
           type="submit"
           value={isLogin ? "Iniciar sesion" : "Registrate"}
-          onClick={(e) => HandleSubmit(e)}
           id="log-input-button"
         ></input>
         <div className="link-container-register-login">
