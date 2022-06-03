@@ -50,3 +50,8 @@ a{
   text-decoration: none;
   color: black;
 }
+
+li{
+  text-decoration: none;
+  list-style: none;
+}
