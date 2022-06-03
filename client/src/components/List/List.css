@@ -5,6 +5,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    margin-top: 80px;
 }
 
 .box-subjects-container{
@@ -75,4 +76,11 @@
 .add-btn{
     text-decoration: underline;
     cursor: pointer;
+}
+
+
+@media (min-width: 1100px) {
+    .main-subjects{
+        padding-left: 200px;
+    }
 }

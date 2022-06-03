@@ -22,8 +22,8 @@ const Topbar = () => {
   return (
     <div className="top-bar-contain">
       <div className="burger-menu">
-        <i class="fas fa-bars burger" onClick={handleDisplay}></i>
-        <i class="fas fa-times closed ds-none" onClick={handleDisplay}></i>
+        <i className="fas fa-bars burger" onClick={handleDisplay}></i>
+        <i className="fas fa-times closed ds-none" onClick={handleDisplay}></i>
       </div>
       <div className="top-bar">
         <div className="avatar-contain">
@@ -37,22 +37,22 @@ const Topbar = () => {
         <ul className="list-btn-navbar">
           <li className="item-navbar">
             <Link to="/">
-              <i class="fa fa-fw fa-home"></i> Inicio
+              <i className="fa fa-fw fa-home"></i> Inicio
             </Link>
           </li>
           <li className="item-navbar">
             <Link to="/subjects">
-              <i class="fas fa-book-reader"></i> Materias
+              <i className="fas fa-book-reader"></i> Materias
             </Link>
           </li>
           <li className="item-navbar">
             <Link to="/user/profile/6290328166920c04f471eb98">
-              <i class="fa fa-fw fa-user"></i> Perfil
+              <i className="fa fa-fw fa-user"></i> Perfil
             </Link>
           </li>
           <li className="item-navbar">
             <Link to="#contact">
-              <i class="fa fa-fw fa-envelope"></i> Contact
+              <i className="fa fa-fw fa-envelope"></i> Contact
             </Link>
           </li>
         </ul>

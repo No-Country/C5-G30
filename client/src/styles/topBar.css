@@ -3,6 +3,7 @@
     background-color: #0D6878;
     position: fixed;
     z-index: 80;
+    top: 0;
 }
 
 .top-bar{
