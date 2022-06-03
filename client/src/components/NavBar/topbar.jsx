@@ -1,6 +1,6 @@
 import React from "react";
 import "../../styles/topBar.css";
-import { Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 const Topbar = () => {
   const handleDisplay = () => {
@@ -52,7 +52,7 @@ const Topbar = () => {
           </li>
           <li className="item-navbar">
             <Link to="#contact">
-              <i className="fa fa-fw fa-envelope"></i> Contact
+              <i className="fas fa-sign-out-alt"></i> Cerrar Sesión
             </Link>
           </li>
         </ul>

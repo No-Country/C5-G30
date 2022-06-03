@@ -19,7 +19,7 @@ const SideBar = () => {
           <i className="fa fa-fw fa-user"></i> Perfil
         </Link>
         <Link to="#contact">
-          <i className="fa fa-fw fa-envelope"></i> Contact
+          <i className="fas fa-sign-out-alt"></i> Cerrar Sesión
         </Link>
       </div>
     </div>

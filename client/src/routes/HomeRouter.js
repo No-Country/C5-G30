@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import List from '../components/List/List.jsx';
 import NavBar from '../components/NavBar/NavBar.jsx';
 import AddSubjects from '../components/subjects/addSubjects.jsx';
-import Dashboard from '../pages/Dashboard.jsx';
+import Home from '../pages/Home.jsx';
 import UserRouter from './UserRouter.js';
 
 const HomeRouter = () => {
@@ -11,7 +11,7 @@ const HomeRouter = () => {
         <>
             <NavBar />
             <Routes>
-                <Route path='/' element={<Dashboard />} />
+                <Route path='/' element={<Home />} />
                 <Route path='/subjects' element={<List />} />
                 <Route path='/subjects/add' element={<AddSubjects />} />
                 <Route path='/user/*' element={<UserRouter />} />
