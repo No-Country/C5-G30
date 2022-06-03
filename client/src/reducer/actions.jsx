@@ -8,12 +8,14 @@ export const GET_CONTACTS = "GET_CONTACTS";
 export function getContacts(payload) {
   return async function (dispatch) {
     const listTurnos = await axios.get(
-      "api/getCohorte",
-      {}
+      "api/getTeacher",
+      {},
     );
+    
     return dispatch({
       type: GET_CONTACTS,
-      payload: listTurnos.data.buscado,
+      payload: listTurnos,
+      
     });
   };
 }

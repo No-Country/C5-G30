@@ -1,10 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom"
-
-
 import Login from "../pages/LogInRegister";
 import UserRouter from './UserRouter.js';
-
+import DetailsMateria from "../components/DetailsMateria"
 
 const AppRouter = ({store}) => {
     
@@ -16,6 +14,7 @@ const AppRouter = ({store}) => {
                     <Route path="/login" element={<Login isLogin={true} />} />
                     <Route path="/register" element={<Login isLogin={false} />} />                
                     <Route path='/user/*' element={<UserRouter />} />
+                    <Route path="/detailsMat" element={<DetailsMateria/>}/>
                 </Routes>
         </BrowserRouter>
     );
