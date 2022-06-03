@@ -48,7 +48,7 @@ export default function LoginInRegister({ isLogin }) {
     dispatch(startLogin(e.target[0].value, e.target[1].value))
     
     
-    if (estado.auth.userGet) {
+    if (estado.auth.email !== "") {
       navigate('/')
     }
     

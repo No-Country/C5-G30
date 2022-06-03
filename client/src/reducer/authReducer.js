@@ -1,7 +1,7 @@
 import { types } from '../types/types';
 
 const initialState =  {
-    userGet : localStorage.getItem('email') || ""
+    email : localStorage.getItem('email') || ""
 };
 console.log(initialState)
 

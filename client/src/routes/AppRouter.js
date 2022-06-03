@@ -13,9 +13,9 @@ const AppRouter = (store) => {
     return (
         <BrowserRouter>
                 <Routes>
-                    <Route exact path="/*" element={!estado.auth.userGet ? <Navigate to="/login"/> : <HomeRouter />} />
-                    <Route path="/login" element={<Login isLogin={true} />} />
-                    <Route path="/register" element={<Login isLogin={false} />} />                
+                    <Route exact path="/*" element={!estado.auth.email ? <Navigate to="/login"/> : <HomeRouter />} />
+                    <Route path="/login" element={estado.auth.email ? <Navigate to="/"/> : <Login isLogin={true} />} />
+                    <Route path="/register" element={estado.auth.email ? <Navigate to="/"/> : <Login isLogin={false} />} />                
                 </Routes>
         </BrowserRouter>
     );
