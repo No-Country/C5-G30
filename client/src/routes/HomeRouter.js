@@ -1,16 +1,15 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import List from '../components/List/List.jsx';
-import SideBar from '../components/SideBar.jsx';
+import NavBar from '../components/NavBar/NavBar.jsx';
 import AddSubjects from '../components/subjects/addSubjects.jsx';
-import Topbar from '../components/topbar.jsx';
 import Dashboard from '../pages/Dashboard.jsx';
 import UserRouter from './UserRouter.js';
+
 const HomeRouter = () => {
     return (
         <>
-            <Topbar />
-            {/* <SideBar /> */}
+            <NavBar />
             <Routes>
                 <Route path='/' element={<Dashboard />} />
                 <Route path='/subjects' element={<List />} />
