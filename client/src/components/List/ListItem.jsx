@@ -1,6 +1,5 @@
 
-
-export default (props) => {
+export default function ListItem (props){
   return (
     <div className="list-item">
       <p>{props.msg}</p>

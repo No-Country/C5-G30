@@ -2,7 +2,7 @@ import ListItem from "./ListItem";
 import "./List.css";
 import { Link } from "react-router-dom";
 
-export default () => {
+export default function List (){
   return (
     <main className="main-subjects" >
       <h2>Materias</h2>
@@ -20,3 +20,6 @@ export default () => {
     </main>
   );
 };
+
+
+
