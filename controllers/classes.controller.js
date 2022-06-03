@@ -33,15 +33,28 @@ class ClassesController {
 
   static async updateClasses(req, res) {
     try {
-
+      const updateClass = await Classes.findOneAndUpdate({ title: req.params.title }, req.body);
+      if (updateClass) {
+        res.status(httpStatus.OK).json({ msg: `${req.params.title} was updated` })
+      }
+    } catch (error) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong' });
     }
-    const updateClass = await Classes.findOneAndUpdate({ title: req.params.title }, req.body)
 
   }
 
-  static async deleteClasses() {
+  static async deleteClasses(req, res) {
+    try {
+      const deleteClass = await Classes.deleteOne({ title: req.params.title });
+      if (deleteClass) {
+        res.status(httpStatus.OK).json({ msg: `${req.params.title} was deleted` })
+      }
+    } catch (error) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong' });
+    }
 
   }
 }
+
 
 module.exports = ClassesController;
