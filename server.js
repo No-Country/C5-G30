@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 8080; // Step 1
+const PORT = process.env.PORT || 3000; // Step 1
 
 const routes = require('./routes/api');
 const materiaRoutes=require('./routes/materiaRoutes')
@@ -14,7 +14,7 @@ const classesRoutes=require('./routes/classesRoutes')
 //const studentsRoutes=require('./routes/studentsRoutes')
 const tasksRoutes=require('./routes/tasksRoutes')
 const cohorteRoutes=require('./routes/cohorteRoutes')
-
+const studentsRoutes=require('./routes/studentsRoutes')
 
 mongoose.connect("mongodb+srv://AulaVirtual2022:nocountryvirtual@aulavirtual.9kdbn.mongodb.net/test" || 'mongodb://localhost/mern_youtube', {
     useNewUrlParser: true,
@@ -42,7 +42,7 @@ app.use(morgan('tiny'));
 app.use('/api', routes);
 app.use('/api', teacherRoutes);
 app.use('/api', classesRoutes);
-//app.use('/api', studentsRoutes);
+app.use('/stu', studentsRoutes);
 app.use('/api', tasksRoutes);
 app.use('/mat', materiaRoutes);
 app.use('/coho', cohorteRoutes);
