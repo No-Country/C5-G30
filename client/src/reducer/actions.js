@@ -17,10 +17,10 @@ export function getContacts(payload) {
 
 export function getStudents(payload) {
   return async function (dispatch) {
-    const student = await axios.get("stu/getStudents", {});
+    const students = await axios.get("stu/getStudents/", {});
     return dispatch({
       type: GET_STUDENTS,
-      payload: student,
+      payload: students.data
     });
   };
 }
