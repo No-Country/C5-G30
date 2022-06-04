@@ -1,23 +1,19 @@
 import React, { useState } from "react";
-import '../styles/dashboard.css'
-import {useEffect } from "react";
-import {useSelector,useDispatch} from"react-redux"
-import {
-  getContacts,
-  getStudents
-} from "../reducer/actions";
-
+import "../styles/dashboard.css";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getContacts, getStudents } from "../reducer/actions";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  
- useEffect(() => {
-  dispatch(getStudents());
-}, [dispatch]);
 
-const student=useSelector((state)=>state.student)
- console.log(student,"--->")
- 
+  useEffect(() => {
+    dispatch(getStudents());
+  }, [dispatch]);
+
+  const student1 = useSelector((state) => state.student);
+  console.log(student1, "--->");
+
   const [chat, setChat] = useState("");
 
   const chats = [

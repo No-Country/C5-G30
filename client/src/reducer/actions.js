@@ -15,12 +15,12 @@ export function getContacts(payload) {
   };
 }
 
-export function getStudents(payload) {
+export function getStudents() {
   return async function (dispatch) {
-    const students = await axios.get("stu/getStudents/", {});
+    const students = await axios.get("http://localhost:3001/stu/getStudents/", {});
     return dispatch({
       type: GET_STUDENTS,
-      payload: students.data
+      payload: students.data.students
     });
   };
 }
