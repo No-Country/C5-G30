@@ -6,6 +6,12 @@
 
 .app {
   padding: 10px;
+
+}
+
+.App {
+  padding: 10px;
+  position: relative;
 }
 
 

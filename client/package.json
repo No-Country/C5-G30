@@ -11,8 +11,14 @@
     "react-dom": "^18.1.0",
     "react-redux": "^7.2.8",
     "react-router-dom": "^6.3.0",
+<<<<<<< HEAD
     "react-scripts": "5.0.1",
     "react-select": "^5.3.2",
+=======
+    "react-scripts": "^5.0.1",
+    "react-select": "^5.3.2",
+    "redux": "^4.2.0",
+>>>>>>> c4ae11cab796b5bd558f1b498bcf1e4bc5b03c9f
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
     "styled-components": "^5.3.5",
