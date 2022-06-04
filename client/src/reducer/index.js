@@ -1,11 +1,11 @@
-import {combineReducers} from "redux";
+import { combineReducers } from "redux";
 import authReducer from './authReducer';
 // import { GET_CONTACTS } from "./actions";
-
+// import { GET_STUDENTS } from "./actions";
 
 // const initialState = {
-//     allTurnos: []
-    
+//     allTurnos: [],
+//     students: []
 // }
 
 // function rootReducer(state = initialState, action) {
@@ -18,17 +18,22 @@ import authReducer from './authReducer';
 //             return {
 //                 ...state,
 //                 allTurnos: action.payload
-               
+
 //             }
 
-       
-
+//         case GET_STUDENTS:
+//             return {
+//                 ...state,
+//                 students: action.payload
+//             }
 //         default:
 //             return state
 
 //     }
 
 // }
+
+// export default rootReducer
 
 export const rootReducer = combineReducers({
     auth : authReducer

@@ -12,7 +12,7 @@ const HomeRouter = () => {
         <>
             <NavBar />
             <Routes>
-                <Route path='/' element={<Home />} />
+                <Route path='/home' element={<Home />} />
                 <Route path='/subjects' element={<List />} />
                 <Route path='/subjects/add' element={<AddSubjects />} />
                 <Route path='/user/*' element={<UserRouter />} />

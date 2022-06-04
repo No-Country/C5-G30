@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+import {useSelector} from "react-redux"
+
+
 import '../styles/dashboard.css'
 
 const Dashboard = () => {
+  
+  const student=((state)=>state.student)   
+  console.log(student)
+
   const [chat, setChat] = useState("");
 
   const chats = [
