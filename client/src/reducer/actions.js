@@ -5,7 +5,7 @@ export const GET_CONTACTS = "GET_CONTACTS";
 export const GET_STUDENTS = "GET_STUDENTS"
 export const GET_STUDENT_ID = "GET_STUDENT_ID"
 export const GET_MATERIA = "GET_MATERIA"
-export const GET_TEACHERS="GET_TEACHERS"
+export const GET_TEACHERS = "GET_TEACHERS"
 
 ///////////////////ESTUDIANTES///////////////////////////
 
@@ -28,6 +28,26 @@ export function getStudentId(idStudent) {
     })
   }
 }
+
+//ESTA FUNCION AGREGA UNA MATERIA AL ARRAY DE MATERIA DE UN ESTUDIANTE EN PARTICULAR
+//ES DECIR SERVIRIA PARA QUE EL ALUMNO SE INSCRIBA EN UNA MATERIA
+// en payload llegan los valores enviados por input (en este caso vendria el id de la materia a agregar)
+//por tanto la materia ya debe estar cargada previamente
+//idStudents seria el id del estudiante que recibira el agregado de la materia mencionada 
+export function addMateriaStudents(payload, idStudent) {
+  console.log(payload)
+  console.log(idStudent)
+
+  return async function (dispatch) {
+    try {
+      var newMateria = await axios.post(`http://localhost:3001/stu/addMateriaStu/${idStudent}`, payload);
+      return newMateria
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
+
 /////////////////////MATERIAS/////////////////////
 
 export function getMaterias() {
@@ -37,9 +57,9 @@ export function getMaterias() {
       type: GET_MATERIA,
       payload: materias.data.materias
     })
-
   }
 }
+
 
 ///////////////////////TEACHER////////////////////////////////
 export function getTeachers() {
