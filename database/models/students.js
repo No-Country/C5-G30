@@ -14,7 +14,8 @@ const students = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Materia'
     }],
-    status: { type: Boolean, require: true }
+    status: { type: Boolean, require: true },
+    cohorte:{type:String,reuire:true}
 })
 
 module.exports = mongoose.model('Students', students);
