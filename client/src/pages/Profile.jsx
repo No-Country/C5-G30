@@ -10,7 +10,7 @@ const Profile = () => {
     const [dataUser, setDataUser] = useState();
     let idParams = useParams()
     let apiCall = async ()=>{
-        let resolve = await UseFetch(`http://localhost:8080/api/getTeacher/${idParams.id}`)
+        let resolve = await UseFetch(`http://localhost:3001/api/getTeacher/${idParams.id}`)
         if(resolve.status === 200){
             setDataUser(resolve.data)
         }
