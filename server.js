@@ -3,9 +3,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
+const passport=require("passport")
+const session=require("express-session")
 const cors = require('cors');
 const app = express();
+
 const PORT = process.env.PORT || 3001; // Step 1
+require("./passport/local-auth")
 
 const routes = require('./routes/api');
 const materiaRoutes=require('./routes/materiaRoutes')
@@ -15,7 +19,7 @@ const classesRoutes=require('./routes/classesRoutes')
 const tasksRoutes=require('./routes/tasksRoutes')
 const cohorteRoutes=require('./routes/cohorteRoutes')
 const studentsRoutes=require('./routes/studentsRoutes')
-
+const loginRoutes=require('./routes/loginRoutes')
 
 //ajustes para que se le brinde permisos al frontend d que pueda intercambiar
 //reques con el backend por medio del uso de rutas
@@ -39,7 +43,6 @@ app.use(cors(
 ));
 
 
-
 mongoose.connect("mongodb+srv://AulaVirtual2022:nocountryvirtual@aulavirtual.9kdbn.mongodb.net/test" || 'mongodb://localhost/mern_youtube', {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -54,16 +57,18 @@ mongoose.connection.on('connected', () => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-
-
-
+app.use(session({
+    secret:"secretSession",
+    resave:false,
+    saveUninitialized:false 
+}))
+app.use(passport.initialize()) //lo ejecutamos como middleware(inicializamos passport)
+app.use(passport.session()) 
 // Step 3
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
-
 
 // HTTP request logger
 app.use(morgan('tiny'));
@@ -74,5 +79,6 @@ app.use('/stu', studentsRoutes);
 app.use('/api', tasksRoutes);
 app.use('/mat', materiaRoutes);
 app.use('/coho', cohorteRoutes);
+app.use('/lo', loginRoutes);
 
 app.listen(PORT, console.log(`Server is starting at ${PORT}`));
