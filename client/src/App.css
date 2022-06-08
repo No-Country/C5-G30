@@ -6,6 +6,12 @@
 
 .app {
   padding: 10px;
+
+}
+
+.App {
+  padding: 10px;
+  position: relative;
 }
 
 
@@ -49,4 +55,9 @@ button {
 a{
   text-decoration: none;
   color: black;
+}
+
+li{
+  text-decoration: none;
+  list-style: none;
 }

@@ -9,16 +9,16 @@ import '../styles/Profile.css'
 const Profile = () => {
     const [dataUser, setDataUser] = useState();
     let idParams = useParams()
-    let apiCall = async (setState, id)=>{
-        let resolve = await UseFetch(`http://localhost:8080/api/getTeacher/${id.id}`)
+    let apiCall = async ()=>{
+        let resolve = await UseFetch(`http://localhost:3001/api/getTeacher/${idParams.id}`)
         if(resolve.status === 200){
-            setState(resolve.data)
+            setDataUser(resolve.data)
         }
         
     }
 
     useEffect(() => {
-        apiCall(setDataUser, idParams)
+        apiCall()
         
     }, []);
     

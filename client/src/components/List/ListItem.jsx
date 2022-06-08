@@ -1,11 +1,14 @@
-import ListButton from "./ListButton";
 
-export default (props) => {
+export default function ListItem (props){
   return (
-    <div id="list-item-background-001">
-      <div id="list-item-msg-001">{props.msg}</div>
-      <ListButton val="1" msg={props.btn1} />
-      <ListButton val="1" msg={props.btn2} />
+    <div className="list-item">
+      <p>{props.msg}</p>
+      <div className="btn-list">
+        {props.btn1}
+      </div>
+      <div className="btn-list">
+      {props.btn2}
+      </div>
     </div>
   );
 };
