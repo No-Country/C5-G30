@@ -19,9 +19,11 @@ const classesRoutes=require('./routes/classesRoutes')
 const tasksRoutes=require('./routes/tasksRoutes')
 const cohorteRoutes=require('./routes/cohorteRoutes')
 const studentsRoutes=require('./routes/studentsRoutes')
+
+const PORT = process.env.PORT || 3001; // Step 1
 //----------------------------------------- END OF IMPORTS---------------------------------------------------
 mongoose.connect(
-  "mongodb+srv://AulaVirtual2022:nocountryvirtual@aulavirtual.9kdbn.mongodb.net/test",
+  "mongodb+srv://AulaVirtual2022:nocountryvirtual@aulavirtual.9kdbn.mongodb.net/test"|| 'mongodb://localhost/mern_youtube',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -30,6 +32,11 @@ mongoose.connect(
     console.log("Mongoose Is Connected");
   }
 );
+
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+}
 
 // Middleware
 app.use(bodyParser.json());
@@ -92,6 +99,7 @@ app.get("/user", (req, res) => {
 app.listen(3001, () => {
   console.log("Server Has Started");
 });
+
 
 
 /////////////////////
