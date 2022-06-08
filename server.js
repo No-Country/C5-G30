@@ -20,7 +20,8 @@ const classesRoutes=require('./routes/classesRoutes')
 const tasksRoutes=require('./routes/tasksRoutes')
 const cohorteRoutes=require('./routes/cohorteRoutes')
 const studentsRoutes=require('./routes/studentsRoutes')
-
+const jwt = require('jsonwebtoken')
+require('dotenv').config();
 const PORT = process.env.PORT || 3001; // Step 1
 //----------------------------------------- END OF IMPORTS---------------------------------------------------
 mongoose.connect(
@@ -69,8 +70,19 @@ app.post("/login", (req, res, next) => {
     if (!user) res.send("No User Exists");
     else {
       req.logIn(user, (err) => {
+        let data ={
+          id : user._id
+        }
         if (err) throw err;
-        res.send("Successfully Authenticated");
+          function generateAccessToken(user) {
+            return jwt.sign(data, process.env.SECRET, {expiresIn: '1h'})
+          }
+        const accessToken = generateAccessToken(user)
+        res.status(200).json({
+          msg : "Successfully Authenticated",
+          token : accessToken,
+          data : req.user
+        });
         console.log(req.user);
       });
     }

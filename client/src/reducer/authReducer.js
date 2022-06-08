@@ -6,7 +6,7 @@ import { GET_TEACHERS } from "./actions"
 
 
 const initialState = {
-    email: localStorage.getItem('email') || "",
+    user: JSON.parse(localStorage.getItem('userNoClassroom')) || "",
     student: [],
     student_id: [],
     materias: [],

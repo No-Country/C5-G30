@@ -1,11 +1,14 @@
 import { types } from "../types/types";
 
-export const startLogin = (email, password)=>{
+export const startLogin = (data)=>{
+    let parse = {
+        id : data._id,
+        email : data.username
+    }
     return (dispatch)=>{
-        localStorage.setItem('email', email)
+        localStorage.setItem('userNoClassroom', JSON.stringify(parse))
         dispatch(login({
-            name : 'usuario',
-            email,
+            user : parse
         }))
     }
 

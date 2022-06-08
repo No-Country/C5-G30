@@ -3,6 +3,7 @@ import { Link, useNavigate} from "react-router-dom";
 import "../styles/Log.css";
 import { useDispatch, useSelector } from 'react-redux'
 import { startLogin } from '../actions/authLogin'
+import UseFetchPost from "../hooks/useFetchPost";
 
 export default function LoginInRegister({ isLogin }) {
   let navigate = useNavigate();
@@ -14,41 +15,19 @@ export default function LoginInRegister({ isLogin }) {
     password2: "",
   });
 
-  const HandleError = () => {
-    let error = [];
-    if (form.email === "") error.push("El mail no puede estar vacio");
-    if (!form.password) error.push("La contraseña no puede estar vacia");
-    else if (form.password !== form.password2)
-      error.push("Las contraseñas no coinciden");
-    else if (form.password.length < 8)
-      error.push("La contraseña debe tener al menos 8 caracteres");
-    else if (form.password.length > 16)
-      error.push("La contraseña no debe tener mas de 16 caracteres");
-    return error;
-  };
   const estado = useSelector((state) => state);
-  const HandleSubmit = (e) => {
+  const HandleSubmit = async (e) => {
     e.preventDefault();
-    if (!isLogin) {
-      let temp = HandleError();
-      if (temp.length > 0) {
-        alert(temp.map((e) => e + "\n"));
-      } else {
-        alert(
-          `Nuevo usuario creado\nMail: ${form.email}\nPassword: ${form.password}\nPassword2: ${form.password2}`
-        );
-        SetForm({
-          email: "",
-          password: "",
-          password2: "",
-        });
-      }
-    } else alert("Iniciando sesion");
-
-    dispatch(startLogin(e.target[0].value, e.target[1].value))
-    
-    
-    if (estado.auth.email !== "") {
+    let keyword ={
+      username : e.target[0].value,
+      password : e.target[1].value
+    }
+    let data = await UseFetchPost('http://localhost:3001/login', keyword)
+    console.log(data)
+    if(data.status === 200){
+      dispatch(startLogin(data.data.data))
+    }
+    if (estado.auth.user.email !== "" && estado.auth.user.id !== "" ) {
       navigate('/')
     }
     
