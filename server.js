@@ -1,17 +1,17 @@
-// Import npm packages
-const express = require('express');
-const mongoose = require('mongoose');
-const morgan = require('morgan');
-const path = require('path');
-const passport=require("passport")
-const session=require("express-session")
-const cors = require('cors');
+const mongoose = require("mongoose");
+const express = require("express");
+const cors = require("cors");
+const passport = require("passport");
+const passportLocal = require("passport-local").Strategy;
+const cookieParser = require("cookie-parser");
+const bcrypt = require("bcryptjs");
+const session = require("express-session");
+const bodyParser = require("body-parser");
 const app = express();
+const User = require("./database/models/users");
+const morgan = require('morgan');
 
-const PORT = process.env.PORT || 3001; // Step 1
-require("./passport/local-auth")
-
-const routes = require('./routes/api');
+const routes = require('./routes/api'); 
 const materiaRoutes=require('./routes/materiaRoutes')
 const teacherRoutes=require('./routes/teacherRoutes')
 const classesRoutes=require('./routes/classesRoutes')
@@ -19,58 +19,82 @@ const classesRoutes=require('./routes/classesRoutes')
 const tasksRoutes=require('./routes/tasksRoutes')
 const cohorteRoutes=require('./routes/cohorteRoutes')
 const studentsRoutes=require('./routes/studentsRoutes')
-const loginRoutes=require('./routes/loginRoutes')
-
-//ajustes para que se le brinde permisos al frontend d que pueda intercambiar
-//reques con el backend por medio del uso de rutas
-//Solicitud desde otro origen bloqueada: la política de mismo origen impide leer el recurso remoto en http://mi_servidor/ 
-//se debe instalar CORS
-const config = {
-    application: {
-        cors: {
-            server: [
-                {
-                    origin: "localhost:3000", //servidor que deseas que consuma o (*) en caso que sea acceso libre
-                    credentials: true
-                }
-            ]
-        }
-}
-}
-
-app.use(cors(
-  config.application.cors.server
-));
-
-
-mongoose.connect("mongodb+srv://AulaVirtual2022:nocountryvirtual@aulavirtual.9kdbn.mongodb.net/test" || 'mongodb://localhost/mern_youtube', {
+//----------------------------------------- END OF IMPORTS---------------------------------------------------
+mongoose.connect(
+  "mongodb+srv://AulaVirtual2022:nocountryvirtual@aulavirtual.9kdbn.mongodb.net/test",
+  {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+  },
+  () => {
+    console.log("Mongoose Is Connected");
+  }
+);
+
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "http://localhost:3000", // <-- location of the react app were connecting to
+    credentials: true,
+  })
+);
+app.use(
+  session({
+    secret: "secretcode",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(cookieParser("secretcode"));
+app.use(passport.initialize());
+app.use(passport.session());
+require("./passportConfig")(passport);
+
+//----------------------------------------- END OF MIDDLEWARE---------------------------------------------------
+
+// Routes
+app.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) throw err;
+    if (!user) res.send("No User Exists");
+    else {
+      req.logIn(user, (err) => {
+        if (err) throw err;
+        res.send("Successfully Authenticated");
+        console.log(req.user);
+      });
+    }
+  })(req, res, next);
+});
+app.post("/register", (req, res) => {
+  User.findOne({ username: req.body.username }, async (err, doc) => {
+    if (err) throw err;
+    if (doc) res.send("User Already Exists");
+    if (!doc) {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+      const newUser = new User({
+        username: req.body.username,
+        password: hashedPassword,
+      });
+      await newUser.save();
+      res.send("User Created");
+    }
+  });
+});
+app.get("/user", (req, res) => {
+  res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
+});
+//----------------------------------------- END OF ROUTES---------------------------------------------------
+//Start Server
+app.listen(3001, () => {
+  console.log("Server Has Started");
 });
 
 
-mongoose.connection.on('connected', () => {
-    console.log('Mongoose is connected!!!!');
-});
-
-// Data parsing
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(session({
-    secret:"secretSession",
-    resave:false,
-    saveUninitialized:false 
-}))
-app.use(passport.initialize()) //lo ejecutamos como middleware(inicializamos passport)
-app.use(passport.session()) 
-// Step 3
-
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-}
-
-// HTTP request logger
+/////////////////////
 app.use(morgan('tiny'));
 app.use('/api', routes);
 app.use('/api', teacherRoutes);
@@ -79,6 +103,4 @@ app.use('/stu', studentsRoutes);
 app.use('/api', tasksRoutes);
 app.use('/mat', materiaRoutes);
 app.use('/coho', cohorteRoutes);
-app.use('/lo', loginRoutes);
-
-app.listen(PORT, console.log(`Server is starting at ${PORT}`));
+/////////////////////////////
