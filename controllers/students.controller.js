@@ -18,15 +18,45 @@ const addStudents = async (req, res, next) => {
   })
 
   try {
+
     await students.save()
     res.send(students)
     res.json({
       status: "students created"
     })
+  }
+  catch (error) {
+    next(error)
+  }
+}
+
+const editStudents = async (req, res, next) => {
+  const { firstName, lastName, dni, address, country, province, email, phone, status, cohorte } = req.body;
+  const newStudent = {
+    firstName: firstName,
+    lastName: lastName,
+    dni: dni,
+    address: address,
+    country: country,
+    province: province,
+    email: email,
+    phone: phone,
+    status: status,
+    cohorte: cohorte
+  }
+
+  try {
+    await Students.findByIdAndUpdate(req.params.id, newStudent, { userFindModify: false })
+    res.json({
+      status: "students actualizado"
+    })
+
   } catch (error) {
     next(error)
   }
 }
+
+
 
 const getStudents = async (req, res) => {
   const students = await Students.find()
@@ -36,7 +66,7 @@ const getStudents = async (req, res) => {
   // })
   try {
     await Students.find({}, function (err, students) {
-      Materia.populate(students, { path: "materias" }, function (err, students){
+      Materia.populate(students, { path: "materias" }, function (err, students) {
         res.json({
           students: students
         })
@@ -55,8 +85,8 @@ const getStudentsId = async (req, res) => {
   // })
 
   try {
-    await Students.findById(req.params.id,{}, function (err, students) {
-      Materia.populate(students, { path: "materias" }, function (err, students){
+    await Students.findById(req.params.id, {}, function (err, students) {
+      Materia.populate(students, { path: "materias" }, function (err, students) {
         res.json({
           students: students
         })
@@ -88,5 +118,6 @@ module.exports = {
   addStudents,
   getStudents,
   getStudentsId,
-  addMateriaStu
+  addMateriaStu,
+  editStudents
 }

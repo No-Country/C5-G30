@@ -9,6 +9,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const app = express();
 const User = require("./database/models/users");
+const Students = require("./database/models/students");
 const morgan = require('morgan');
 
 const routes = require('./routes/api'); 
@@ -75,14 +76,15 @@ app.post("/login", (req, res, next) => {
     }
   })(req, res, next);
 });
+
 app.post("/register", (req, res) => {
-  User.findOne({ username: req.body.username }, async (err, doc) => {
+  Students.findOne({ username: req.body.username }, async (err, doc) => {
     if (err) throw err;
     if (doc) res.send("User Already Exists");
     if (!doc) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-      const newUser = new User({
+      const newUser = new Students({
         username: req.body.username,
         password: hashedPassword,
       });
