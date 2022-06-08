@@ -22,6 +22,7 @@ export function getStudents() {
 export function getStudentId(idStudent) {
   return async function (dispatch) {
     const student = await axios.get(`http://localhost:3001/stu/getStudent/${idStudent}`, {});
+    console.log(student)
     return dispatch({
       type: GET_STUDENT_ID,
       payload: student.data.student

@@ -2,7 +2,7 @@ import React from "react";
 import "../../styles/topBar.css";
 import { Link } from "react-router-dom";
 
-const Topbar = () => {
+const Topbar = ({user}) => {
   const handleDisplay = () => {
     let display = document.querySelector(".top-bar");
     let $burger = document.querySelector(".burger");
@@ -46,7 +46,7 @@ const Topbar = () => {
             </Link>
           </li>
           <li className="item-navbar">
-            <Link to="/user/profile/6290328166920c04f471eb98">
+            <Link to={`/user/profile/${user.id}`}>
               <i className="fa fa-fw fa-user"></i> Perfil
             </Link>
           </li>
