@@ -10,3 +10,4 @@ npm i morgan (permite ver en consola que es lo que el ususario esta pidiendo)
 -bycript-nodejs (cifrar las contraseñas)
 -express-session (almacenamos datos de sesion en express)
 -npm i flash
+https://www.youtube.com/watch?v=KgXT63wPMPc&ab_channel=PedroTech

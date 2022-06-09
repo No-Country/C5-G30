@@ -1,31 +1,68 @@
 const express = require('express');
 const Teacher = require('../database/models/teacher');
 const Materia = require('../database/models/materia');
+const jwt = require('jsonwebtoken')
 
-const getTeacher= async (req, res) => {
- 
+function verifyToken(req, res) {
+    const bearerHeader = req.headers["authorization"];
+
+    if (typeof bearerHeader !== "undefined") {
+        console.log("ingreso aqui")
+        const bearerToken = bearerHeader.split(" ")[1];
+        req.token = bearerToken;
+    }
+    else {
+        console.log("ingreso en el else")
+        return res.status(403).json({ error: "no existe token" })
+    }
+
+}
+
+const getTeacher = async (req, res) => {
+
     const buscado = await Teacher.find()
     res.json({
         buscado: buscado
     })
 }
 
-const getTeacherId=async (req, res) => {
+const getTeacherId = async (req, res) => {
+    verifyToken(req, res)
+    jwt.verify(req.token, "secret", async (err, authData) => {
+        if (err) {
+            //res.sendStatus(403)
+            return res.status(403).json({ error: "no existe token o es invalido" })
+        } else {
+            try {
+                const teacher = await Teacher.findById(req.params.id)
+                //res.send(teacher)
+                if (teacher) {
+                    res.json({
+                        teacher: teacher
+                    })
+                }
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
+    })
 
-    try {
-        const buscado = await Teacher.findById(req.params.id)
-        res.send(buscado)
-        res.json({
-            buscado: buscado
-        })
-    }
-    catch (err) {
-        console.log(err)
-    }
+    // try {
+    //     const teacher = await Teacher.findById(req.params.id)
+    //     //res.send(teacher)
+    //     if(teacher){
+    //         res.json({
+    //             teacher: teacher
+    //         })
+    //     }
+    // }
+    // catch (err) {
+    //     console.log(err)
+    // }
 }
-
-const editTeacher=async (req, res) => {
-    const { firstName, lastName, dni, address, country, province, email, phone, status } = req.body
+const editTeacher = async (req, res) => {
+    const { firstName, lastName, dni, address, country, province, username, phone, status } = req.body
     const newTeacher = {
         firstName: firstName,
         lastName: lastName,
@@ -33,7 +70,7 @@ const editTeacher=async (req, res) => {
         address: address,
         country: country,
         province: province,
-        email: email,
+        username: username,
         phone: phone,
         status: status
     }
@@ -48,9 +85,9 @@ const editTeacher=async (req, res) => {
     }
 }
 
-const addTeacher=async (req, res, next) => {
+const addTeacher = async (req, res, next) => {
 
-    const { firstName, lastName, dni, address, country, province, email, phone, status } = req.body;
+    const { firstName, lastName, dni, address, country, province, username, phone, status } = req.body;
     const teacher = new Teacher({
         firstName: firstName,
         lastName: lastName,
@@ -58,7 +95,7 @@ const addTeacher=async (req, res, next) => {
         address: address,
         country: country,
         province: province,
-        email: email,
+        username: username,
         phone: phone,
         status: status
     })
@@ -83,7 +120,7 @@ const addTeacher=async (req, res, next) => {
     }
 }
 
-module.exports={
+module.exports = {
     getTeacher,
     getTeacherId,
     editTeacher,

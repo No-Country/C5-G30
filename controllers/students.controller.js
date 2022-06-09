@@ -1,6 +1,7 @@
 const express = require("express")
 const Students = require("../database/models/students");
 const Materia = require('../database/models/materia');
+const jwt = require('jsonwebtoken')
 
 const addStudents = async (req, res, next) => {
   const { firstName, lastName, dni, address, country, province, email, phone, status, cohorte } = req.body;
@@ -47,9 +48,9 @@ const editStudents = async (req, res, next) => {
 
   try {
     await Students.findByIdAndUpdate(req.params.id, newStudent, { userFindModify: false })
-    res.json({
-      status: "students actualizado"
-    })
+    res.status(200).json({
+      msg : "usuario actualizado"
+    });
 
   } catch (error) {
     next(error)
@@ -64,6 +65,8 @@ const getStudents = async (req, res) => {
   // res.json({
   //   students: students
   // })
+
+
   try {
     await Students.find({}, function (err, students) {
       Materia.populate(students, { path: "materias" }, function (err, students) {
@@ -78,26 +81,48 @@ const getStudents = async (req, res) => {
 
 }
 
-const getStudentsId = async (req, res) => {
+
+function verifyToken(req,res){
+  const bearerHeader=req.headers["authorization"];
+  if(typeof bearerHeader !=="undefined"){
+    console.log("ingreso aqui")
+    const bearerToken=bearerHeader.split(" ")[1];
+    req.token=bearerToken;
+
+  }
+  else{
+    console.log("ingreso en el else")
+    return res.status(403).json({error:"no existe token"})
+  }
+}
+
+const getStudentsId =async (req, res) => {
   // const student = await Students.findById(req.params.id)
   // res.json({
   //   student: student
   // })
-
-  try {
-    await Students.findById(req.params.id, {}, function (err, students) {
-      Materia.populate(students, { path: "materias" }, function (err, students) {
-        res.json({
-          students: students
-        })
-      })
-    })
-  } catch (error) {
-    console.log(error)
-  }
-
-
+  verifyToken(req,res)
+    jwt.verify(req.token, "secret", async (err, authData) => {
+      if (err) {
+        //res.sendStatus(403)
+        return res.status(403).json({error:"no existe token o es invalido"})
+      } else {
+        try {
+          await Students.findById(req.params.id, {}, function (err, students) {
+            Materia.populate(students, { path: "materias" }, function (err, students) {
+              res.json({
+                students: students
+              })
+            })
+          })
+        } catch (error) {
+          console.log(error,"no existe el buscado")
+        }
+            
+      }
+    })  
 }
+
 
 
 const addMateriaStu = async (req, res) => {
@@ -109,15 +134,18 @@ const addMateriaStu = async (req, res) => {
   students.materias.push(materia)
   await students.save()
 
-  res.json({
-    status: "materia asignada"
-  })
+  res.status(200).json({
+    msg : "Successfully Authenticated"
+  });
 }
+
+
 
 module.exports = {
   addStudents,
   getStudents,
   getStudentsId,
   addMateriaStu,
-  editStudents
+  editStudents,
+  
 }

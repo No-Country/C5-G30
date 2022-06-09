@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const User = require("./database/models/users");
 const Students = require("./database/models/students");
+const Teacher = require("./database/models/teacher");
 const morgan = require('morgan');
 
 const routes = require('./routes/api'); 
@@ -23,6 +24,7 @@ const studentsRoutes=require('./routes/studentsRoutes')
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
 const PORT = process.env.PORT || 3001; // Step 1
+const getStudentsId=require("./controllers/students.controller")
 //----------------------------------------- END OF IMPORTS---------------------------------------------------
 mongoose.connect(
   "mongodb+srv://AulaVirtual2022:nocountryvirtual@aulavirtual.9kdbn.mongodb.net/test"|| 'mongodb://localhost/mern_youtube',
@@ -63,57 +65,73 @@ require("./passportConfig")(passport);
 
 //----------------------------------------- END OF MIDDLEWARE---------------------------------------------------
 
-// Routes
-app.post("/login", (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
-    if (err) throw err;
-    if (!user) res.send("No User Exists");
-    else {
-      req.logIn(user, (err) => {
-        let data ={
-          id : user._id
-        }
-        if (err) throw err;
-          function generateAccessToken(user) {
-            return jwt.sign(data, process.env.SECRET, {expiresIn: '1h'})
-          }
-        const accessToken = generateAccessToken(user)
-        res.status(200).json({
-          msg : "Successfully Authenticated",
-          token : accessToken,
-          data : req.user
-        });
-        console.log(req.user);
-      });
-    }
-  })(req, res, next);
-});
+// Routes STUDENTS
+// app.post("/login", (req, res, next) => {
+//   passport.authenticate("local", (err, user, info) => {
+//     if (err) throw err;
+//     if (!user) res.send("No User Exists");
+//     else {
+//       req.logIn(user, (err) => {
+//         if (err) throw err;
+//         // res.send("Successfully Authenticated");
+         
+//         // function generateAccessToken(user) {
+//         //       return jwt.sign(user.id, "secret")
+//         //     }
+//         //   const accessToken = generateAccessToken(user)
+//         // res.status(200).json({
+//         //   msg : "Successfully Authenticated",
+//         //   token : accessToken,
+//         //   data : req.user
+//         // });
+        
+//         let data ={
+//           id : user._id
+//         }
+//         if (err) throw err;
+//           function generateAccessToken(user) {
+//             return jwt.sign(data, "secret",{expiresIn:"60s"})
+//           }
+//         const accessToken = generateAccessToken(user)
+//         res.status(200).json({
+//           msg : "Successfully Authenticated",
+//           token : accessToken,
+//           data : req.user
+//         });
+//         //console.log(req.user);
+//       });
+//     }
+//   })(req, res, next);
+// });
 
-app.post("/register", (req, res) => {
-  Students.findOne({ username: req.body.username }, async (err, doc) => {
-    if (err) throw err;
-    if (doc) res.send("User Already Exists");
-    if (!doc) {
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+// app.post("/register", (req, res) => {
+//   Students.findOne({ username: req.body.username }, async (err, doc) => {
+//     if (err) throw err;
+//     if (doc) res.send("User Already Exists");
+//     if (!doc) {
+//       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-      const newUser = new Students({
-        username: req.body.username,
-        password: hashedPassword,
-      });
-      await newUser.save();
-      res.send("User Created");
-    }
-  });
-});
+//       const newUser = new Students({
+//         username: req.body.username,
+//         password: hashedPassword,
+//       });
+//       await newUser.save();
+//       res.send("User Created");
+//     }
+//   });
+// });
+
+
 app.get("/user", (req, res) => {
   res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
 });
+
+
 //----------------------------------------- END OF ROUTES---------------------------------------------------
 //Start Server
 app.listen(3001, () => {
   console.log("Server Has Started");
 });
-
 
 
 /////////////////////
