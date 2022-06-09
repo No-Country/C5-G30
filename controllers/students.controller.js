@@ -101,26 +101,38 @@ const getStudentsId =async (req, res) => {
   // res.json({
   //   student: student
   // })
-  verifyToken(req,res)
-    jwt.verify(req.token, "secret", async (err, authData) => {
-      if (err) {
-        //res.sendStatus(403)
-        return res.status(403).json({error:"no existe token o es invalido"})
-      } else {
-        try {
-          await Students.findById(req.params.id, {}, function (err, students) {
-            Materia.populate(students, { path: "materias" }, function (err, students) {
-              res.json({
-                students: students
-              })
-            })
-          })
-        } catch (error) {
-          console.log(error,"no existe el buscado")
-        }
+  try {
+    await Students.findById(req.params.id, {}, function (err, students) {
+      Materia.populate(students, { path: "materias" }, function (err, students) {
+        res.json({
+          students: students
+        })
+      })
+    })
+  } catch (error) {
+    console.log(error,"no existe el buscado")
+  }
+
+  // verifyToken(req,res)
+  //   jwt.verify(req.token, "secret", async (err, authData) => {
+  //     if (err) {
+  //       //res.sendStatus(403)
+  //       return res.status(403).json({error:"no existe token o es invalido"})
+  //     } else {
+  //       try {
+  //         await Students.findById(req.params.id, {}, function (err, students) {
+  //           Materia.populate(students, { path: "materias" }, function (err, students) {
+  //             res.json({
+  //               students: students
+  //             })
+  //           })
+  //         })
+  //       } catch (error) {
+  //         console.log(error,"no existe el buscado")
+  //       }
             
-      }
-    })  
+  //     }
+  //   })  
 }
 
 
