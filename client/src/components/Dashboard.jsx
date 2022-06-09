@@ -4,34 +4,36 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getStudents,
-  getStudent_id,
+  getStudentId,
   getMaterias,
   getTeachers,
 } from "../reducer/actions";
 
 const Dashboard = () => {
+  const estado = useSelector((state) => state);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getStudents());
+    dispatch(getStudentId(estado.auth.user.id));
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getMaterias());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getMaterias());
+  // }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getTeachers());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getTeachers());
+  // }, [dispatch]);
   //////////////////////////////////////////////////////////////
   const student = useSelector((state) => state.auth.student[0]);
-  const materias = useSelector((state) => state.auth.materias);
-  const teachers = useSelector((state) => state.auth.teachers);
+  // const materias = useSelector((state) => state.auth.materias);
+  // const teachers = useSelector((state) => state.auth.teachers);
 
   //////////////////////////////////////////////////////////////
-  console.log(student, "listado estudiantes");
-  console.log(materias, "listado de Materias");
-  console.log(teachers,"listado de teachers");
+  // console.log(student, "listado estudiantes");
+  // console.log(materias, "listado de Materias");
+  // console.log(teachers,"listado de teachers");
   const [chat, setChat] = useState("");
 
   const chats = [
