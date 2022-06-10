@@ -27,39 +27,39 @@ const getTeacher = async (req, res) => {
 }
 
 const getTeacherId = async (req, res) => {
-    verifyToken(req, res)
-    jwt.verify(req.token, "secret", async (err, authData) => {
-        if (err) {
-            //res.sendStatus(403)
-            return res.status(403).json({ error: "no existe token o es invalido" })
-        } else {
-            try {
-                const teacher = await Teacher.findById(req.params.id)
-                //res.send(teacher)
-                if (teacher) {
-                    res.json({
-                        teacher: teacher
-                    })
-                }
-            }
-            catch (err) {
-                console.log(err)
-            }
-        }
-    })
-
-    // try {
-    //     const teacher = await Teacher.findById(req.params.id)
-    //     //res.send(teacher)
-    //     if(teacher){
-    //         res.json({
-    //             teacher: teacher
-    //         })
+    // verifyToken(req, res)
+    // jwt.verify(req.token, "secret", async (err, authData) => {
+    //     if (err) {
+    //         //res.sendStatus(403)
+    //         return res.status(403).json({ error: "no existe token o es invalido" })
+    //     } else {
+    //         try {
+    //             const teacher = await Teacher.findById(req.params.id)
+    //             //res.send(teacher)
+    //             if (teacher) {
+    //                 res.json({
+    //                     teacher: teacher
+    //                 })
+    //             }
+    //         }
+    //         catch (err) {
+    //             console.log(err)
+    //         }
     //     }
-    // }
-    // catch (err) {
-    //     console.log(err)
-    // }
+    // })
+
+    try {
+        const teacher = await Teacher.findById(req.params.id)
+        //res.send(teacher)
+        if(teacher){
+            res.json({
+                teacher: teacher
+            })
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
 }
 const editTeacher = async (req, res) => {
     const { firstName, lastName, dni, address, country, province, username, phone, status } = req.body
