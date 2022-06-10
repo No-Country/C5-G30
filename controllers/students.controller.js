@@ -141,6 +141,7 @@ const addMateriaStu = async (req, res) => {
   await Students.findById(req.params.id)
 
   const { idMateria } = req.body
+  console.log(typeof idMateria)
   const materia = await Materia.findById(idMateria)
   const students = await Students.findById(req.params.id)
   students.materias.push(materia)

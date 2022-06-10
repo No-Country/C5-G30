@@ -4,6 +4,7 @@ import "../styles/Log.css";
 import { useDispatch, useSelector } from 'react-redux'
 import { startLogin } from '../actions/authLogin'
 import UseFetchPost from "../hooks/useFetchPost";
+import host from "../helpers/host"
 
 export default function LoginInRegister({ isLogin }) {
   let navigate = useNavigate();
@@ -22,10 +23,9 @@ export default function LoginInRegister({ isLogin }) {
       username : e.target[0].value,
       password : e.target[1].value
     }
-    let data = await UseFetchPost('http://localhost:3001/login', keyword)
-    console.log(data)
+    let data = await UseFetchPost(`${host.development}/stu/login`, keyword)
     if(data.status === 200){
-      dispatch(startLogin(data.data.data))
+      dispatch(startLogin(data.data))
     }
     if (estado.auth.user.email !== "" && estado.auth.user.id !== "" ) {
       navigate('/')

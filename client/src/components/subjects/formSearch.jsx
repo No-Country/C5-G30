@@ -1,7 +1,7 @@
 import React from "react";
 import UseFetch from "../../hooks/useFetch";
 
-const FormSearch = ({setState}) => {
+const FormSearch = ({setState, setKeyword}) => {
 
     const filterData = (data, value)=>{
         let subjects = data.data.materias
@@ -15,6 +15,7 @@ const FormSearch = ({setState}) => {
     const handleSubmit = async (e)=>{
         e.preventDefault()
         let valueInput = e.target.searchSubjects.value
+        setKeyword(valueInput)
         let data = await apiCall()
         filterData(data, valueInput)
     }

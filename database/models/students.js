@@ -8,7 +8,7 @@ const students = new Schema({
     address: { type: String, require: false },
     country: { type: String, require: false },
     province: { type: String, require: false },
-    username: { type: String, require: false },
+    username: { type: String, require: true },
     phone: { type: Number, require: false },
     materias: [{
         type: Schema.Types.ObjectId,
@@ -16,7 +16,7 @@ const students = new Schema({
     }],
     status: { type: Boolean, require: false },
     cohorte:{type:String,reuire:false},
-    password:{type:String,require:false}
+    password:{type:String,require:true}
 })
 
 module.exports = mongoose.model('Students', students);

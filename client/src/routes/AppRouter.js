@@ -12,9 +12,9 @@ const AppRouter = (store) => {
     return (
         <BrowserRouter>
                 <Routes>
-                    <Route exact path="/*" element={!estado.auth.user.id ? <Navigate to="/login"/> : <HomeRouter />} />
-                    <Route path="/login" element={estado.auth.user.id  ? <Navigate to="/"/> : <Login isLogin={true} />} />
-                    <Route path="/register" element={estado.auth.user.id ? <Navigate to="/"/> : <Login isLogin={false} />} />                
+                    <Route exact path="/*" element={!estado.auth.user  ? <Navigate to="/login"/> : <HomeRouter />} />
+                    <Route path="/login" element={estado.auth.user ? <Navigate to="/"/> : <Login isLogin={true} />} />
+                    <Route path="/register" element={estado.auth.user ? <Navigate to="/"/> : <Login isLogin={false} />} />                
                 </Routes>
         </BrowserRouter>
     );

@@ -1,11 +1,8 @@
 import axios from "axios";
-export const ADD_TODO = "ADD_TODO";
-export const ORDER_CONTACTS = "ORDER_CONTACTS";
-export const GET_CONTACTS = "GET_CONTACTS";
-export const GET_STUDENTS = "GET_STUDENTS"
-export const GET_STUDENT_ID = "GET_STUDENT_ID"
-export const GET_MATERIA = "GET_MATERIA"
-export const GET_TEACHERS = "GET_TEACHERS"
+import host from "../helpers/host";
+import UseFetch from "../hooks/useFetch";
+import { types } from "../types/types";
+
 
 ///////////////////ESTUDIANTES///////////////////////////
 
@@ -13,19 +10,23 @@ export function getStudents() {
   return async function (dispatch) {
     const students = await axios.get("http://localhost:3001/stu/getStudents/", {});
     return dispatch({
-      type: GET_STUDENTS,
+      type: types.GET_STUDENTS,
       payload: students.data.students
     });
   };
 }
 
-export function getStudentId(idStudent) {
+export function getStudent(student) {
   return async function (dispatch) {
-    const student = await axios.get(`http://localhost:3001/stu/getStudent/${idStudent}`, {});
-    console.log(student)
+    let save = {
+      firstName : student.data.students.firstName,
+      lastName : student.data.students.lastName,
+      cohorte : student.data.students.cohorte,
+    }
     return dispatch({
-      type: GET_STUDENT_ID,
-      payload: student.data.student
+      type: types.GET_STUDENT,
+      payload: save,
+      loading : false
     })
   }
 }
@@ -51,12 +52,11 @@ export function addMateriaStudents(payload, idStudent) {
 
 /////////////////////MATERIAS/////////////////////
 
-export function getMaterias() {
+export function getMaterias(data) {
   return async function (dispatch) {
-    const materias = await axios.get("http://localhost:3001/mat/getMateria", {})
     return dispatch({
-      type: GET_MATERIA,
-      payload: materias.data.materias
+      type: types.GET_SUBJECT,
+      payload: data
     })
   }
 }
@@ -67,7 +67,7 @@ export function getTeachers() {
   return async function (dispatch) {
     const teachers = await axios.get("http://localhost:3001/api/getTeacher/", {});
     return dispatch({
-      type: GET_TEACHERS,
+      type: types.GET_TEACHERS,
       payload: teachers.data.buscado
     })
   }

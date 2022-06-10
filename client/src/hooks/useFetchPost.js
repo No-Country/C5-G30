@@ -3,10 +3,10 @@ import axios from 'axios'
 
 const UseFetchPost = async (url, keyword) => {
     let data ;
+    console.log(keyword)
     try {
         let response = await axios.post( url , {
-            username: keyword.username,
-            password: keyword.password
+            ...keyword
           })
         data = response
     } catch (error) {

@@ -4,20 +4,30 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getStudents,
-  getStudentId,
+  getStudent,
   getMaterias,
   getTeachers,
 } from "../reducer/actions";
+import Loader from "./Load/Loader";
+import host from "../helpers/host";
+import UseFetch from "../hooks/useFetch";
 
 const Dashboard = () => {
+
   const estado = useSelector((state) => state);
 
   const dispatch = useDispatch();
-
+  async function getData() {
+    const data = await UseFetch(`${host.development}/stu/getStudent/${estado.auth.user.id}`);
+    dispatch(getMaterias(data.data.students.materias));
+    dispatch(getStudent(data));
+  }
+  
   useEffect(() => {
-    dispatch(getStudentId(estado.auth.user.id));
-  }, [dispatch]);
+    getData()
+  }, []);
 
+  
   // useEffect(() => {
   //   dispatch(getMaterias());
   // }, [dispatch]);
@@ -26,7 +36,8 @@ const Dashboard = () => {
   //   dispatch(getTeachers());
   // }, [dispatch]);
   //////////////////////////////////////////////////////////////
-  const student = useSelector((state) => state.auth.student[0]);
+  const student = useSelector((state) => state.auth.student);
+  const subjects = useSelector((state) => state.auth.subjects);
   // const materias = useSelector((state) => state.auth.materias);
   // const teachers = useSelector((state) => state.auth.teachers);
 
@@ -63,15 +74,15 @@ const Dashboard = () => {
   };
 
   const [state, setState] = useState("");
-  console.log(state);
 
   return (
     <>
-      {student ? (
+      {!student.loading ? (     
         <section className="dashboard-wrapper">
           <section className="main-section">
             <h2 className="main-title">Dashboard</h2>
-            <div className="dashboard-bubble">
+            { !subjects ? <span className="danger-new">No estas asignado una COHORTE/MATERIA</span> : ""}
+            <div className="dashboard-bubble">          
               <div className="bubble-container">
                 <h1>{student.cohorte}</h1>
                 <div className="date-info">
@@ -79,11 +90,12 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="bubble-container">
-                <h1>{student.materias.length}</h1>
+                <h1>{subjects.length}</h1>
                 <div className="date-info">
                   <span>Materias</span>
                 </div>
               </div>
+
               <div className="bubble-container">
                 {student.status === true ? (
                   <h1>Vigente</h1>
@@ -138,7 +150,9 @@ const Dashboard = () => {
             ></path>
           </svg>
         </section>
-      ) : null}
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };

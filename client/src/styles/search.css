@@ -93,6 +93,12 @@
     font-size: 1.3rem;
 }
 
+.btn-incript-subject{
+    color: rgb(34, 9, 253);
+    text-decoration: underline;
+    cursor: pointer;
+
+}
 @media (min-width: 1100px) {
     .search-subjects{
         padding-left: 200px;
