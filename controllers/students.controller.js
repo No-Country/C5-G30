@@ -70,7 +70,7 @@ const getStudents = async (req, res) => {
   try {
     await Students.find({}, function (err, students) {
       Materia.populate(students, { path: "materias" }, function (err, students) {
-        res.json({
+        res.status(200).json({
           students: students
         })
       })
@@ -88,7 +88,6 @@ function verifyToken(req,res){
     console.log("ingreso aqui")
     const bearerToken=bearerHeader.split(" ")[1];
     req.token=bearerToken;
-
   }
   else{
     console.log("ingreso en el else")
@@ -104,13 +103,16 @@ const getStudentsId =async (req, res) => {
   try {
     await Students.findById(req.params.id, {}, function (err, students) {
       Materia.populate(students, { path: "materias" }, function (err, students) {
-        res.json({
+        res.status(200).json({
           students: students
         })
       })
     })
   } catch (error) {
     console.log(error,"no existe el buscado")
+    // res.status(204).json({
+    //    error:"ususario no encontrado"
+    // })
   }
 
   // verifyToken(req,res)
@@ -141,14 +143,19 @@ const addMateriaStu = async (req, res) => {
   await Students.findById(req.params.id)
 
   const { idMateria } = req.body
+  
   const materia = await Materia.findById(idMateria)
   const students = await Students.findById(req.params.id)
-  students.materias.push(materia)
-  await students.save()
-
-  res.status(200).json({
-    msg : "Successfully Authenticated"
-  });
+  if(materia&&students){
+    students.materias.push(materia)
+    await students.save()
+    res.status(200).json({
+      msg : "Materia Asignada"
+    });
+  }else
+  res.status(204).json({
+    msg:"materia o estudiante no encontrado"
+  })
 }
 
 

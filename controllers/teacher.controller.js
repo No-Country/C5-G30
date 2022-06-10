@@ -21,8 +21,13 @@ function verifyToken(req, res) {
 const getTeacher = async (req, res) => {
 
     const buscado = await Teacher.find()
-    res.json({
-        buscado: buscado
+    if(buscado){
+        res.status(200).json({
+            buscado: buscado
+        })
+    }else 
+    res.status(204).json({
+      status:"teachers no encontrados"
     })
 }
 
@@ -48,18 +53,20 @@ const getTeacherId = async (req, res) => {
     //     }
     // })
 
-    try {
+    
         const teacher = await Teacher.findById(req.params.id)
         //res.send(teacher)
+
         if(teacher){
-            res.json({
+            res.status(200).json({
                 teacher: teacher
             })
+        }else{
+            res.status(204).json({
+                status: "teacher no encontrado"
+            })
         }
-    }
-    catch (err) {
-        console.log(err)
-    }
+    
 }
 const editTeacher = async (req, res) => {
     const { firstName, lastName, dni, address, country, province, username, phone, status } = req.body
@@ -76,12 +83,12 @@ const editTeacher = async (req, res) => {
     }
     try {
         await Teacher.findByIdAndUpdate(req.params.id, newTeacher, { userFindModify: false })
-        res.json({
+        res.status(200).json({
             status: "teacher actualizado"
         })
 
     } catch (err) {
-
+        console.log(err)
     }
 }
 
