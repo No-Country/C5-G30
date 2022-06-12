@@ -8,14 +8,14 @@ const passport = require("passport");
 require("../passportConfig")(passport);
 const Students = require("../database/models/students");
 const bcrypt = require("bcryptjs");
-const {addStudents,getStudents,getStudentsId,addMateriaStu,editStudents}=require("../controllers/students.controller")
+const {addStudents,getStudents,getStudentsId,addMateriaStu,editStudents,postImage}=require("../controllers/students.controller")
 
 router.post("/addStudents",addStudents);
 router.get("/getStudents",getStudents);
 router.get("/getStudent/:id",getStudentsId)
 router.post("/addMateriaStu/:id",addMateriaStu)
 router.put("/editStudents/:id",editStudents)
-
+router.post("postImage",postImage)
 
 // Routes STUDENTS
 router.post("/login", (req, res, next) => {

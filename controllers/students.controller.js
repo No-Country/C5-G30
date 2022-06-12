@@ -2,9 +2,21 @@ const express = require("express")
 const Students = require("../database/models/students");
 const Materia = require('../database/models/materia');
 const jwt = require('jsonwebtoken')
+const fileUpload=require("express-fileupload")
+const Image=require("../database/models/image");
 
-const addStudents = async (req, res, next) => {
+  const postImage=async(req,res,next)=>{
+    const imagen=req.files.variable
+    const imagenPost=new Image(imagen)
+    imagenPost.save((req,res)=>{
+      res.status(200)
+    })
+  }
+
+  const addStudents = async (req, res, next) => {
+
   const { firstName, lastName, dni, address, country, province, email, phone, status, cohorte } = req.body;
+
   const students = new Students({
     firstName: firstName,
     lastName: lastName,
@@ -32,7 +44,7 @@ const addStudents = async (req, res, next) => {
 }
 
 const editStudents = async (req, res, next) => {
-  const { firstName, lastName, dni, address, country, province, email, phone, status, cohorte } = req.body;
+  const { firstName, lastName, dni, address, country, province, email, phone, status, cohorte} = req.body;
   const newStudent = {
     firstName: firstName,
     lastName: lastName,
@@ -43,11 +55,12 @@ const editStudents = async (req, res, next) => {
     email: email,
     phone: phone,
     status: status,
-    cohorte: cohorte
+    cohorte: cohorte,
   }
+  //const imagen=req.files.variable
 
   try {
-    await Students.findByIdAndUpdate(req.params.id, newStudent, { userFindModify: false })
+    await Students.findByIdAndUpdate(req.params.id, newStudent,req.files.variable, { userFindModify: false })
     res.status(200).json({
       msg : "usuario actualizado"
     });
@@ -166,5 +179,5 @@ module.exports = {
   getStudentsId,
   addMateriaStu,
   editStudents,
-  
+  postImage
 }
