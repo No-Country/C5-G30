@@ -21,9 +21,14 @@ function verifyToken(req, res) {
 const getTeacher = async (req, res) => {
 
     const buscado = await Teacher.find()
-    res.json({
-        buscado: buscado
-    })
+    if (buscado) {
+        res.status(200).json({
+            buscado: buscado
+        })
+    } else
+        res.status(204).json({
+            status: "teachers no encontrados"
+        })
 }
 
 const getTeacherId = async (req, res) => {
@@ -48,18 +53,20 @@ const getTeacherId = async (req, res) => {
     //     }
     // })
 
-    try {
-        const teacher = await Teacher.findById(req.params.id)
-        //res.send(teacher)
-        if(teacher){
-            res.json({
-                teacher: teacher
-            })
-        }
+
+    const teacher = await Teacher.findById(req.params.id)
+    //res.send(teacher)
+
+    if (teacher) {
+        res.status(200).json({
+            teacher: teacher
+        })
+    } else {
+        res.status(204).json({
+            status: "teacher no encontrado"
+        })
     }
-    catch (err) {
-        console.log(err)
-    }
+
 }
 const editTeacher = async (req, res) => {
     const { firstName, lastName, dni, address, country, province, username, phone, status } = req.body
@@ -76,15 +83,16 @@ const editTeacher = async (req, res) => {
     }
     try {
         await Teacher.findByIdAndUpdate(req.params.id, newTeacher, { userFindModify: false })
-        res.json({
+        res.status(200).json({
             status: "teacher actualizado"
         })
 
     } catch (err) {
-
+        console.log(err)
     }
 }
 
+//recibe el id de materia 
 const addTeacher = async (req, res, next) => {
 
     const { firstName, lastName, dni, address, country, province, username, phone, status } = req.body;
@@ -100,18 +108,19 @@ const addTeacher = async (req, res, next) => {
         status: status
     })
 
+
+    const materia = await Materia.findById(req.params.id)
+    console.log(materia.name, "--->nombre")
+    //teacher.mat = materia
+
+    teacher.materias.push(materia.name)
+
+    await teacher.save()
+    materia.teachers.push(teacher)
+    await materia.save()
+    res.send(teacher)
     try {
-        const materia = await Materia.findById(req.params.id)
-        console.log(materia.name, "--->nombre")
-        teacher.mat = materia
-        if (teacher.materias) {
-            teacher.materias.push(materia.name)
-        }
-        await teacher.save()
-        materia.teachers.push(teacher)
-        await materia.save()
-        res.send(teacher)
-        res.json({
+        res.status(200).json({
             status: "teacher creada"
         })
     }

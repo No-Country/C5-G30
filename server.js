@@ -13,21 +13,24 @@ const Students = require("./database/models/students");
 const Teacher = require("./database/models/teacher");
 const morgan = require('morgan');
 
-const routes = require('./routes/api'); 
-const materiaRoutes=require('./routes/materiaRoutes')
-const teacherRoutes=require('./routes/teacherRoutes')
-const classesRoutes=require('./routes/classesRoutes')
+const routes = require('./routes/api');
+const materiaRoutes = require('./routes/materiaRoutes')
+const teacherRoutes = require('./routes/teacherRoutes')
+const classesRoutes = require('./routes/classesRoutes')
 //const studentsRoutes=require('./routes/studentsRoutes')
-const tasksRoutes=require('./routes/tasksRoutes')
-const cohorteRoutes=require('./routes/cohorteRoutes')
-const studentsRoutes=require('./routes/studentsRoutes')
+const tasksRoutes = require('./routes/tasksRoutes')
+const cohorteRoutes = require('./routes/cohorteRoutes')
+const studentsRoutes = require('./routes/studentsRoutes')
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
 const PORT = process.env.PORT || 3001; // Step 1
-const getStudentsId=require("./controllers/students.controller")
+const getStudentsId = require("./controllers/students.controller")
+const Image = require("./database/models/image");
+const fileUpload = require("express-fileupload")
+
 //----------------------------------------- END OF IMPORTS---------------------------------------------------
 mongoose.connect(
-  "mongodb+srv://AulaVirtual2022:nocountryvirtual@aulavirtual.9kdbn.mongodb.net/test"|| 'mongodb://localhost/mern_youtube',
+  "mongodb+srv://AulaVirtual2022:nocountryvirtual@aulavirtual.9kdbn.mongodb.net/test" || 'mongodb://localhost/mern_youtube',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -63,63 +66,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 require("./passportConfig")(passport);
 
-//----------------------------------------- END OF MIDDLEWARE---------------------------------------------------
-
-// Routes STUDENTS
-// app.post("/login", (req, res, next) => {
-//   passport.authenticate("local", (err, user, info) => {
-//     if (err) throw err;
-//     if (!user) res.send("No User Exists");
-//     else {
-//       req.logIn(user, (err) => {
-//         if (err) throw err;
-//         // res.send("Successfully Authenticated");
-         
-//         // function generateAccessToken(user) {
-//         //       return jwt.sign(user.id, "secret")
-//         //     }
-//         //   const accessToken = generateAccessToken(user)
-//         // res.status(200).json({
-//         //   msg : "Successfully Authenticated",
-//         //   token : accessToken,
-//         //   data : req.user
-//         // });
-        
-//         let data ={
-//           id : user._id
-//         }
-//         if (err) throw err;
-//           function generateAccessToken(user) {
-//             return jwt.sign(data, "secret",{expiresIn:"60s"})
-//           }
-//         const accessToken = generateAccessToken(user)
-//         res.status(200).json({
-//           msg : "Successfully Authenticated",
-//           token : accessToken,
-//           data : req.user
-//         });
-//         //console.log(req.user);
-//       });
-//     }
-//   })(req, res, next);
-// });
-
-// app.post("/register", (req, res) => {
-//   Students.findOne({ username: req.body.username }, async (err, doc) => {
-//     if (err) throw err;
-//     if (doc) res.send("User Already Exists");
-//     if (!doc) {
-//       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-//       const newUser = new Students({
-//         username: req.body.username,
-//         password: hashedPassword,
-//       });
-//       await newUser.save();
-//       res.send("User Created");
-//     }
-//   });
-// });
 
 
 app.get("/user", (req, res) => {
@@ -143,4 +89,53 @@ app.use('/stu', studentsRoutes);
 app.use('/api', tasksRoutes);
 app.use('/mat', materiaRoutes);
 app.use('/coho', cohorteRoutes);
+
+app.use(fileUpload({
+  limits: { fileSize: 50 * 1024 * 1024 },
+}))
+
+app.post("/postImage/:idStudent", async function (req, res)  {
+  // const imagen = req.files.variable
+  // console.log(imagen)
+
+  let data = {
+    producto_nombre: "prueba nombre"
+  }
+
+  let modelImagen = new Image(data)
+
+  modelImagen.imagen.data = req.files.variable.data
+  modelImagen.imagen.contentType = req.files.variable.mimetype
+
+  const student=await Students.findById(req.params.idStudent)
+  modelImagen.student=student
+  modelImagen.save((err, rpta) => {
+    if (err) {
+      res.json({
+        err: err
+      })
+    }
+    res.json({
+      result: true
+    })
+  })
+student.image=modelImagen.imagen.data
+
+  await Students.findByIdAndUpdate(req.params.idStudent,modelImagen.imagen.data,{ userFindModify: false })
+})
+
+
+app.get("/imagen/:id", (req, res) => {
+  let id = req.params.id
+  Image.findById(id).exec((err, rpta) => {
+    if (err) {
+      res.json({
+        err: err
+      })
+    }
+    res.set("Content-type", rpta.imagen.contenType)
+    return res.send(rpta.imagen.data)
+  })
+  
+})
 /////////////////////////////
