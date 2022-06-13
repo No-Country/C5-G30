@@ -1,13 +1,16 @@
 import React from "react";
 import "../../styles/topBar.css";
 import { Link } from "react-router-dom";
+import { useSelector , useDispatch } from "react-redux"
+import { logout } from "../../actions/authLogin";
 
 const Topbar = ({user}) => {
+  const student = useSelector(state => state.auth.student)
+  const dispatch = useDispatch()
   const handleDisplay = () => {
     let display = document.querySelector(".top-bar");
     let $burger = document.querySelector(".burger");
     let $closed = document.querySelector(".closed");
-
     if (!$burger.classList.contains("ds-none")) {
       $burger.classList.add("ds-none");
       $closed.classList.remove("ds-none");
@@ -18,6 +21,10 @@ const Topbar = ({user}) => {
       display.style.display = "none";
     }
   };
+
+  const handleClick = (e)=>{
+    dispatch(logout())
+  }
 
   return (
     <div className="top-bar-contain">
@@ -32,7 +39,7 @@ const Topbar = ({user}) => {
             src="/web-developer-design-vector-5884837.jpg"
             alt=""
           />
-          <p>Marcos Britos</p>
+          <p>{student.firstName}</p>
         </div>
         <ul className="list-btn-navbar">
           <li className="item-navbar">
@@ -51,7 +58,7 @@ const Topbar = ({user}) => {
             </Link>
           </li>
           <li className="item-navbar">
-            <Link to="#contact">
+            <Link to="/" onClick={handleClick}>
               <i className="fas fa-sign-out-alt"></i> Cerrar Sesión
             </Link>
           </li>

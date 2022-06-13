@@ -15,6 +15,15 @@ export const startLogin = (data)=>{
 
 }
 
+export const logout= ()=>{
+    return(dispatch)=>{
+        localStorage.removeItem('userNoClassroom')
+        dispatch({
+            type : types.authLogout
+        })
+    }
+}
+
 const login = (user)=>({
     type : types.authLogin,
     payload : user
