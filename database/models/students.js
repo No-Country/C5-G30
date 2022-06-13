@@ -16,7 +16,8 @@ const students = new Schema({
     }],
     status: { type: Boolean, require: false },
     cohorte:{type:String,reuire:false},
-    password:{type:String,require:true}
+    password:{type:String,require:true},
+    avatar:{type:String,require:true},
 })
 
 module.exports = mongoose.model('Students', students);

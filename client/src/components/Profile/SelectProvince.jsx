@@ -27,15 +27,15 @@ const SelectCountry = ({province}) => {
   useEffect(() => {
     apiCall();
   }, []);
-
+  
   return (
     <div className="input-profile">
       <label htmlFor="provinces">Provincia</label>
-      <select name="province" id="provinces" value={province} disabled>
-        <option defaultValue="" key=""></option>
+      <select name="province" id="provinces" defaultValue={province}  disabled>
+        <option value="" key=""></option>
         {Provinces &&
           Provinces.map((e, i) => (
-            <option defaultValue={e} key={i}>
+            <option value={e} key={i} >
               {e}
             </option>
           ))}

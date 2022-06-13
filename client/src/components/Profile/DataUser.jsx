@@ -58,7 +58,7 @@ const DataUser = ({ data, email, id }) => {
     if (resolve.data.msg === "usuario actualizado") {
       Swal.fire({
         icon: "success",
-        title: `Te has Inscripto correctamente a ${data.name}`,
+        title: `Datos actualizados correctamente`,
         showConfirmButton: false,
         timer: 1500,
       });
@@ -68,6 +68,7 @@ const DataUser = ({ data, email, id }) => {
   };
 
   const handleSubmit = (e) => {
+    let avatar = JSON.parse(sessionStorage.getItem('student'))
     e.preventDefault();
     let $form = document.querySelector(".data-form");
     let valueForm = {
@@ -78,6 +79,8 @@ const DataUser = ({ data, email, id }) => {
       phone: $form.elements.phone.value,
       address: $form.elements.address.value,
       province: $form.elements.province.value,
+      avatar : avatar.avatar,
+      cohorte : avatar.cohorte
     };
     apiPut(valueForm);
   };

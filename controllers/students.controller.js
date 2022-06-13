@@ -2,6 +2,10 @@ const express = require("express")
 const Students = require("../database/models/students");
 const Materia = require('../database/models/materia');
 const jwt = require('jsonwebtoken')
+const imgbbUploader = require("imgbb-uploader");
+let fs = require('fs')
+require('dotenv').config();
+let path = require('path')
 
 const addStudents = async (req, res, next) => {
   const { firstName, lastName, dni, address, country, province, email, phone, status, cohorte } = req.body;
@@ -49,12 +53,33 @@ const editStudents = async (req, res, next) => {
   try {
     await Students.findByIdAndUpdate(req.params.id, newStudent, { userFindModify: false })
     res.status(200).json({
-      msg : "usuario actualizado"
+      msg: "usuario actualizado"
     });
 
   } catch (error) {
     next(error)
   }
+}
+
+const uploadAvatar = async (req, res, next) => {
+  try {
+    let response = await imgbbUploader(process.env.API_KEY_IMGBB, path.join(__dirname, `../files/${req.file.filename}`))
+    if(response){
+      if (fs.existsSync('./files/' + req.file.filename) && req.file.filename !== "default-image.png") {
+        fs.unlinkSync(`./files/${req.file.filename}`)
+      } else {
+        console.log('no se encontro el archivo')
+      }
+    }
+    await Students.findByIdAndUpdate(req.params.id, {avatar : response.url}, { userFindModify: false })
+    res.status(200).json({
+      msg: "usuario actualizado",
+      response
+    });
+  } catch (error) {
+    next(error)
+  }
+  
 }
 
 
@@ -82,21 +107,21 @@ const getStudents = async (req, res) => {
 }
 
 
-function verifyToken(req,res){
-  const bearerHeader=req.headers["authorization"];
-  if(typeof bearerHeader !=="undefined"){
+function verifyToken(req, res) {
+  const bearerHeader = req.headers["authorization"];
+  if (typeof bearerHeader !== "undefined") {
     console.log("ingreso aqui")
-    const bearerToken=bearerHeader.split(" ")[1];
-    req.token=bearerToken;
+    const bearerToken = bearerHeader.split(" ")[1];
+    req.token = bearerToken;
 
   }
-  else{
+  else {
     console.log("ingreso en el else")
-    return res.status(403).json({error:"no existe token"})
+    return res.status(403).json({ error: "no existe token" })
   }
 }
 
-const getStudentsId =async (req, res) => {
+const getStudentsId = async (req, res) => {
   // const student = await Students.findById(req.params.id)
   // res.json({
   //   student: student
@@ -110,7 +135,7 @@ const getStudentsId =async (req, res) => {
       })
     })
   } catch (error) {
-    console.log(error,"no existe el buscado")
+    console.log(error, "no existe el buscado")
   }
 
   // verifyToken(req,res)
@@ -130,7 +155,7 @@ const getStudentsId =async (req, res) => {
   //       } catch (error) {
   //         console.log(error,"no existe el buscado")
   //       }
-            
+
   //     }
   //   })  
 }
@@ -148,7 +173,7 @@ const addMateriaStu = async (req, res) => {
   await students.save()
 
   res.status(200).json({
-    msg : "Successfully Authenticated"
+    msg: "Successfully Authenticated"
   });
 }
 
@@ -160,5 +185,5 @@ module.exports = {
   getStudentsId,
   addMateriaStu,
   editStudents,
-  
+  uploadAvatar,
 }

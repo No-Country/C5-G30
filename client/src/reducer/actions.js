@@ -24,6 +24,7 @@ export function getStudent(student) {
       phone : student.phone,
       address : student.address,
       province : student.province,
+      avatar : student.avatar
     }
     sessionStorage.setItem('student', JSON.stringify(save))
     return dispatch({

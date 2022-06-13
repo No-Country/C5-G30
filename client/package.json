@@ -7,6 +7,7 @@
     "@fortawesome/react-fontawesome": "^0.1.18",
     "axios": "^0.27.2",
     "font-awesome": "^4.7.0",
+    "imgbb-uploader": "^1.5.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^7.2.8",

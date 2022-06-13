@@ -36,7 +36,7 @@ const Topbar = ({user}) => {
         <div className="avatar-contain">
           <img
             className="imag-avatar"
-            src="/web-developer-design-vector-5884837.jpg"
+            src={ student.avatar !== "" ? student.avatar : '/default-image-avatar.jpg'}
             alt=""
           />
           <p>{student.firstName}</p>
