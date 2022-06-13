@@ -3,7 +3,7 @@ const { Schema } = require('mongoose');
 
 const students = new Schema({
     firstName: { type: String, require: false },
-    lastName: { type: String, require: false},
+    lastName: { type: String, require: false },
     dni: { type: Number, require: false },
     address: { type: String, require: false },
     country: { type: String, require: false },
@@ -15,11 +15,14 @@ const students = new Schema({
         ref: 'Materia'
     }],
     status: { type: Boolean, require: false },
-    cohorte:{type:String,reuire:false},
-    password:{type:String,require:false},
-    imagen:{
-        type:Schema.Types.ObjectId,
-        ref:'Image'
+    cohorte: { type: String, reuire: false },
+    password: { type: String, require: false },
+    imagen: {
+        type: Schema.Types.ObjectId,
+        ref: 'Image'
+    },
+    dateReg: {
+        type: Date, default: Date.now
     }
 })
 

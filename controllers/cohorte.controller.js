@@ -15,18 +15,19 @@ const getCohorte = async (req, res) => {
 }
 
 const addCohorte = async (req, res) => {
-    const { name, idteacher, idmateria } = req.body
+    const { name, idteacher,dateIni,dateFin } = req.body
 
     try {
-        const teacher = await Teacher.findById(idteacher)
+        //const teacher = await Teacher.findById(idteacher)
         //const materia = await Materia.findById(idmateria)
 
-        const nameTeacher = teacher.firstName
+        //const nameTeacher = teacher.firstName
 
         const cohorte = new Cohorte({
             name: name,
-            //materias: Materia.materias.push(materia),
-            nameTeacher: nameTeacher
+            //materias: Materia.materias.push(materia)
+            dateIni:dateIni,
+            dateFin:dateFin
         })
 
         await cohorte.save()
