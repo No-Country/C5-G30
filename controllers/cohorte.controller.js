@@ -19,14 +19,13 @@ const addCohorte = async (req, res) => {
 
     try {
         const teacher = await Teacher.findById(idteacher)
-        const materia = await Materia.findById(idmateria)
+        //const materia = await Materia.findById(idmateria)
 
         const nameTeacher = teacher.firstName
-        const nameMateria = materia.name
 
         const cohorte = new Cohorte({
             name: name,
-            nameMateria: nameMateria,
+            //materias: Materia.materias.push(materia),
             nameTeacher: nameTeacher
         })
 
@@ -40,7 +39,45 @@ const addCohorte = async (req, res) => {
     }
 }
 
+const addMatCohorte = async (req, res, next) => {
+
+    const { idMateria } = req.body
+
+    const materia = await Materia.findById(idMateria)
+    console.log(materia)
+    const cohorte = await Cohorte.findById(req.params.idCohorte)
+    cohorte.materias.push(materia)
+    await cohorte.save()
+    try {
+        res.status(200).json({
+            msg: "materia añadida"
+        })
+    } catch (err) {
+        next(err)
+    }
+    await cohorte.save()
+
+}
+
+const getCohorteId = async (req, res, next) => {
+
+    try {
+        await Cohorte.findById(req.params.idCohorte, {}, function (err, cohortes) {
+            Materia.populate(cohortes, { path: "materias" }, function (err, cohortes) {
+                res.status(200).json({
+                    cohortes: cohortes
+                })
+            })
+        })
+
+    } catch (err) {
+        next(err)
+    }
+}
+
 module.exports = {
     getCohorte,
-    addCohorte
+    addCohorte,
+    addMatCohorte,
+    getCohorteId
 }

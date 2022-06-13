@@ -16,9 +16,10 @@ const CohorteSchema = new Schema({
   nameTeacher: {
     type: String
   },
-  nameMateria:{
-    type:Object
-  },
+  materias:[{
+    type:Schema.Types.ObjectId,
+    ref:"Materia"
+  }],
   cantStudenst:{
     type: Number
   }

@@ -1,17 +1,10 @@
 const express = require("express")
 const Students = require("../database/models/students");
 const Materia = require('../database/models/materia');
+const Image = require('../database/models/image');
 const jwt = require('jsonwebtoken')
 const fileUpload=require("express-fileupload")
-const Image=require("../database/models/image");
 
-  const postImage=async(req,res,next)=>{
-    const imagen=req.files.variable
-    const imagenPost=new Image(imagen)
-    imagenPost.save((req,res)=>{
-      res.status(200)
-    })
-  }
 
   const addStudents = async (req, res, next) => {
 
@@ -44,7 +37,8 @@ const Image=require("../database/models/image");
 }
 
 const editStudents = async (req, res, next) => {
-  const { firstName, lastName, dni, address, country, province, email, phone, status, cohorte} = req.body;
+  const { firstName, lastName, dni, address, country, province, username, phone, status, cohorte} = req.body;
+  
   const newStudent = {
     firstName: firstName,
     lastName: lastName,
@@ -52,15 +46,16 @@ const editStudents = async (req, res, next) => {
     address: address,
     country: country,
     province: province,
-    email: email,
+    username: username,
     phone: phone,
     status: status,
     cohorte: cohorte,
+    //imagen:idImage
   }
   //const imagen=req.files.variable
 
   try {
-    await Students.findByIdAndUpdate(req.params.id, newStudent,req.files.variable, { userFindModify: false })
+    await Students.findByIdAndUpdate(req.params.id,newStudent,{ userFindModify: false })
     res.status(200).json({
       msg : "usuario actualizado"
     });
@@ -87,6 +82,11 @@ const getStudents = async (req, res) => {
           students: students
         })
       })
+      // Image.populate(students, { path: "imagen" }, function (err, student) {
+      //   res.status(200).json({
+      //     student: student
+      //   })
+      // })
     })
   } catch (error) {
     console.log(error)
@@ -178,6 +178,5 @@ module.exports = {
   getStudents,
   getStudentsId,
   addMateriaStu,
-  editStudents,
-  postImage
+  editStudents
 }

@@ -92,6 +92,7 @@ const editTeacher = async (req, res) => {
     }
 }
 
+//recibe el id de materia 
 const addTeacher = async (req, res, next) => {
 
     const { firstName, lastName, dni, address, country, province, username, phone, status } = req.body;

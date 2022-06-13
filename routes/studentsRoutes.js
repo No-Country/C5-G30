@@ -15,7 +15,7 @@ router.get("/getStudents",getStudents);
 router.get("/getStudent/:id",getStudentsId)
 router.post("/addMateriaStu/:id",addMateriaStu)
 router.put("/editStudents/:id",editStudents)
-router.post("postImage",postImage)
+
 
 // Routes STUDENTS
 router.post("/login", (req, res, next) => {

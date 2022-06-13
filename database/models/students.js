@@ -18,8 +18,8 @@ const students = new Schema({
     cohorte:{type:String,reuire:false},
     password:{type:String,require:false},
     imagen:{
-        data:Buffer,
-        contentType:String
+        type:Schema.Types.ObjectId,
+        ref:'Image'
     }
 })
 
