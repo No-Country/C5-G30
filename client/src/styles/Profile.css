@@ -48,6 +48,11 @@
 
 .form-avatar label{
     display: inline-block;
+    cursor: pointer;
+    font-weight: 600;
+}
+.form-avatar label:hover{
+    text-decoration: underline;
 }
 .form-avatar input{
     display: none;
