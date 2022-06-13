@@ -1,13 +1,19 @@
-import React from 'react';
 import axios from 'axios'
 
-const UseFetchPost = async (url, keyword) => {
-    let data ;
-    console.log(keyword)
+const UseFetchPost = async (url, keyword, method) => {
+    let data;
     try {
-        let response = await axios.post( url , {
-            ...keyword
-          })
+        let response;
+        if (method === "put") {
+            response = await axios.put(url, {
+                ...keyword
+            })
+        } else {
+            response = await axios.post(url, {
+                ...keyword
+            })
+        }
+
         data = response
     } catch (error) {
         console.log(error)

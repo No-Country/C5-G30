@@ -1,6 +1,4 @@
 import axios from "axios";
-import host from "../helpers/host";
-import UseFetch from "../hooks/useFetch";
 import { types } from "../types/types";
 
 
@@ -19,10 +17,15 @@ export function getStudents() {
 export function getStudent(student) {
   return async function (dispatch) {
     let save = {
-      firstName : student.data.students.firstName,
-      lastName : student.data.students.lastName,
-      cohorte : student.data.students.cohorte,
+      firstName : student.firstName,
+      lastName : student.lastName,
+      cohorte : student.cohorte,
+      dni : student.dni,
+      phone : student.phone,
+      address : student.address,
+      province : student.province,
     }
+    sessionStorage.setItem('student', JSON.stringify(save))
     return dispatch({
       type: types.GET_STUDENT,
       payload: save,
@@ -54,6 +57,7 @@ export function addMateriaStudents(payload, idStudent) {
 
 export function getMaterias(data) {
   return async function (dispatch) {
+    sessionStorage.setItem('subjects', JSON.stringify(data))
     return dispatch({
       type: types.GET_SUBJECT,
       payload: data

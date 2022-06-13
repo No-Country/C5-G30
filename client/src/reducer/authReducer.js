@@ -4,10 +4,8 @@ import { types } from '../types/types';
 
 const initialState = {
     user: JSON.parse(localStorage.getItem('userNoClassroom')) || "",
-    student: {
-        loading : true
-    },
-    subjects: [],
+    student: JSON.parse(sessionStorage.getItem('student')) || {},
+    subjects: JSON.parse(sessionStorage.getItem('subjects')) || [],
     teachers: []
 };
 console.log(initialState.student, "state reducer--->")

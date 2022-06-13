@@ -5,7 +5,6 @@ import axios from "axios";
 
 const SelectCountry = ({province}) => {
   const [Provinces, setProvinces] = useState();
-
   const apiCall = () => {
     axios("https://apis.datos.gob.ar/georef/api/provincias")
       .then((data) => {
@@ -31,12 +30,12 @@ const SelectCountry = ({province}) => {
 
   return (
     <div className="input-profile">
-      <label htmlFor="provinces">País</label>
-      <select name="provinces" id="provinces" value={province} disabled>
-        <option value="" key=""></option>
+      <label htmlFor="provinces">Provincia</label>
+      <select name="province" id="provinces" value={province} disabled>
+        <option defaultValue="" key=""></option>
         {Provinces &&
           Provinces.map((e, i) => (
-            <option value={e} key={i}>
+            <option defaultValue={e} key={i}>
               {e}
             </option>
           ))}

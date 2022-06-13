@@ -9,7 +9,7 @@ const SearchSubjects = () => {
     const subjects = useSelector((state) => state.auth.subjects);
     const [InputValue, setInputValue] = useState();
     const [keyword, setKeyword] = useState();
-    const newArrayID = InputValue ?  InputValue.map(sub => sub._id) : false;
+    const newArrayID = subjects ?  subjects.map(sub => sub._id) : false;
 
 
     return (
@@ -23,7 +23,7 @@ const SearchSubjects = () => {
                 <ul className='list-container-result'>
                     {
                         InputValue &&
-                        InputValue.map((result, i) => result.teachers.map((teacher,i2) => <ListContain key={i + result + i2} data={result} teacher={teacher} inscripte={ newArrayID ? newArrayID.includes(result._id) : false}/>))
+                        InputValue.map((result, i) => <ListContain key={i + result} data={result} subjectsInscripte={newArrayID}/>)
                     }
                     
                 </ul>

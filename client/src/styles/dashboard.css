@@ -5,6 +5,12 @@
     justify-content: flex-start;
     flex-direction: column;
     margin-top: 40px;
+    background-image: url('../../public/Group8.svg');
+    width: 100%;
+    height: 100vh;
+    z-index:-1;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
   
   .main-section{
