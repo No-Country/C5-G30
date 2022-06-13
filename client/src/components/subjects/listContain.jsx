@@ -5,10 +5,11 @@ import host from "../../helpers/host";
 import UseFetchPost from "../../hooks/useFetchPost";
 
 
-const ListContain = ({data, teacher, incripte}) => {
+const ListContain = ({data, teacher, inscripte}) => {
+  console.log(inscripte)
   const user = useSelector((state) => state.auth.user);
   let actionSubject;
-  if (!incripte) {
+  if (inscripte) {
     actionSubject = <p className="btn-incript-subject" onClick={handleClink}>Inscribirme</p>
   } else{
     actionSubject = <Link className="link-detail-subject" to="/details">Ver</Link>
