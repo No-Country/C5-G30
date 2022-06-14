@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import "./Log.css";
+import { Link, useNavigate} from "react-router-dom";
+import "../styles/Log.css";
+import { useDispatch, useSelector } from 'react-redux'
+import { startLogin } from '../actions/authLogin'
 
-export default ({ isLogin }) => {
+export default function LoginInRegister({ isLogin }) {
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [form, SetForm] = useState({
     email: "",
     password: "",
@@ -20,7 +26,7 @@ export default ({ isLogin }) => {
       error.push("La contraseña no debe tener mas de 16 caracteres");
     return error;
   };
-
+  const estado = useSelector((state) => state);
   const HandleSubmit = (e) => {
     e.preventDefault();
     if (!isLogin) {
@@ -38,6 +44,14 @@ export default ({ isLogin }) => {
         });
       }
     } else alert("Iniciando sesion");
+
+    dispatch(startLogin(e.target[0].value, e.target[1].value))
+    
+    
+    if (estado.auth.email !== "") {
+      navigate('/')
+    }
+    
   };
 
   const HandleChange = (e) => {
@@ -47,50 +61,59 @@ export default ({ isLogin }) => {
 
   return (
     <div id="login-background">
-      <form id="login-body">
+      <form id="login-body" onSubmit={HandleSubmit}>
         <h2>{isLogin ? "Ingresa" : "Registrate"}</h2>
-        <div id="log-input-field-holder">
-          <h6>Email</h6>
-          <input
-            type="text"
-            id="log-input-field"
-            name="email"
-            value={form.email}
-            onChange={(e) => HandleChange(e)}
-          />
-        </div>
-        <div id="log-input-field-holder">
-          <h6>Contraseña</h6>
-          <input
-            type="password"
-            id="log-input-field"
-            name="password"
-            value={form.password}
-            onChange={(e) => HandleChange(e)}
-          />
-        </div>
-        {!isLogin ? (
+        <div className="input-contain-login">
           <div id="log-input-field-holder">
-            <h6>Confirmar contraseña</h6>
+            <h6>Email</h6>
             <input
-              type="password"
+              type="text"
               id="log-input-field"
-              name="password2"
-              value={form.password2}
+              name="email"
+              value={form.email}
               onChange={(e) => HandleChange(e)}
             />
           </div>
-        ) : (
-          ""
-        )}
+          <div id="log-input-field-holder">
+            <h6>Contraseña</h6>
+            <input
+              type="password"
+              id="log-input-field"
+              name="password"
+              value={form.password}
+              onChange={(e) => HandleChange(e)}
+            />
+          </div>
+          {!isLogin ? (
+            <div id="log-input-field-holder">
+              <h6>Confirmar contraseña</h6>
+              <input
+                type="password"
+                id="log-input-field"
+                name="password2"
+                value={form.password2}
+                onChange={(e) => HandleChange(e)}
+              />
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+
         <input
           type="submit"
           value={isLogin ? "Iniciar sesion" : "Registrate"}
-          onClick={(e) => HandleSubmit(e)}
           id="log-input-button"
         ></input>
-        <a href="#">{isLogin ? "¿Olvidaste tu contraseña?" : ""}</a>
+        <div className="link-container-register-login">
+          <Link to={isLogin ? "/register" : "/login"}>
+            {isLogin
+              ? "No tienes cuenta? Registrate"
+              : "Tienes Cuenta? Inicia Sesión"}
+          </Link>
+          <a href="/">{isLogin ? "¿Olvidaste tu contraseña?" : ""}</a>
+        </div>
       </form>
     </div>
   );
-};
+}

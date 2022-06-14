@@ -1,22 +1,21 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import LandingPage from "../components/LandingPage.jsx"
-import AgendaTurnos from "../components/AgendaTurnos";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom"
+import { useSelector } from 'react-redux'
 
-import Login from "../components/LogRegister/LogInRegister";
-import UserRouter from './UserRouter.js';
+import Login from "../pages/LogInRegister";
+import HomeRouter from './HomeRouter';
 
 
-const AppRouter = () => {
+
+const AppRouter = (store) => {
+    const estado = useSelector((state) => state);
+    console.log(estado.auth.userGet)
     return (
         <BrowserRouter>
                 <Routes>
-                    <Route path="/login" element={<Login isLogin={true} />} />
-                    <Route path="/register" element={<Login isLogin={false} />} />
-                    <Route exact path="/" element={<LandingPage />} />
-                    <Route path="/home" element={<AgendaTurnos />} />
-                    
-                    <Route path='/user/*' element={<UserRouter />} />
+                    <Route exact path="/*" element={!estado.auth.email ? <Navigate to="/login"/> : <HomeRouter />} />
+                    <Route path="/login" element={estado.auth.email ? <Navigate to="/"/> : <Login isLogin={true} />} />
+                    <Route path="/register" element={estado.auth.email ? <Navigate to="/"/> : <Login isLogin={false} />} />                
                 </Routes>
         </BrowserRouter>
     );

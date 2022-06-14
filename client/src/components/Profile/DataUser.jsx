@@ -1,16 +1,14 @@
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
 import SelectCountry from "./SelectCountry";
 import SelectProvince from "./SelectProvince";
 
 
-const DataUser = () => {
+const DataUser = ({data}) => {
   const inputsDisabled = ()=>{
     let $input = document.querySelectorAll('input')
     let $select = document.querySelectorAll('select')
     $input.forEach((a, i)=>{
-      if (i > 6 ) {
+      if (i > 7 ) {
         return
       }
       a.disabled = false
@@ -35,15 +33,15 @@ const DataUser = () => {
       <form action="" method="POST" className="data-form" onClick={handleSubmit}>
         <div className="input-profile">
           <label htmlFor="name">Nombres</label>
-          <input type="text" id="name" name="name" disabled />
+          <input type="text" id="name" name="name" disabled value={data.firstName}/>
         </div>
         <div className="input-profile">
           <label htmlFor="surname">Apellido</label>
-          <input type="text" id="surname" name="surname" disabled  />
+          <input type="text" id="surname" name="surname" disabled  value={data.lastName}/>
         </div>
         <div className="input-profile">
           <label htmlFor="DNI">Nº Documento</label>
-          <input type="number" id="DNI" name="dni" disabled  />
+          <input type="number" id="DNI" name="dni" disabled  value={data.dni}/>
         </div>
         <div className="input-profile">
           <label htmlFor="date">Fecha de Nacimiento</label>
@@ -51,10 +49,18 @@ const DataUser = () => {
         </div>
         <div className="input-profile">
           <label htmlFor="email">Email</label>
-          <input type="text" id="email" name="email" disabled />
+          <input type="text" id="email" name="email" disabled value={data.email}/>
         </div>
-        <SelectCountry />
-        <SelectProvince />
+        <div className="input-profile">
+          <label htmlFor="phone">Télefono</label>
+          <input type="number" id="phone" name="phone" disabled value={data.phone}/>
+        </div>
+        <div className="input-profile">
+          <label htmlFor="address">Dirección</label>
+          <input type="text" id="address" name="address" disabled value={data.address}/>
+        </div>
+        <SelectCountry country={data.country}/>
+        <SelectProvince province={data.province}/>
         <div className="button-container">
           <button id="edit-data-user">Editar</button>
           <button id="submit-data-user" type="submit">

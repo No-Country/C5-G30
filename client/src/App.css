@@ -6,6 +6,12 @@
 
 .app {
   padding: 10px;
+
+}
+
+.App {
+  padding: 10px;
+  position: relative;
 }
 
 
@@ -44,4 +50,14 @@ button {
   margin: 5px 0px;
   border-radius: 4px;
   padding: 10px;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+}
+
+li{
+  text-decoration: none;
+  list-style: none;
 }
