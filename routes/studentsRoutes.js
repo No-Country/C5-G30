@@ -61,34 +61,55 @@ router.post("/login", (req, res, next) => {
     });
   });
   
-  router.put("/editUser/:idStudent", async (req, res) => {
+  router.put("/editUser/:idStudent", async (req, res,next) => {
+
     const id=req.params.idStudent
     console.log(id)
-    const student=await Students.findById(id)
-    if(student){
-      Students.findOne({ username: req.body.username }, async (err, doc) => {
+    const userId=await Students.findById(id)
+    if(userId){
+      Students.findOne({ username: req.body.username }, async (err, user) => {
         if (err) throw err;
-        if (doc) res.status(204).send(
-          "User Already Exists"
-        );
-        if (!doc) {
-          const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    
-          const newUser = ({
-            username: req.body.username,
-            password: hashedPassword,
-          });
+        if (user) {
+          if(user!==req.body.username2){
+            Students.findOne({ username2: req.body.username2 }, async (err, user2) => {
+              if(!user2){
+                bcrypt.compare(req.body.password, user.password, async (err, result) => {
+                  if (err) throw err;
+                  if (result === true) {
+                        //res.status(200).send("contraseña validada")
+                        const hashedPassword = await bcrypt.hash(req.body.password2, 10);
+                        const newUser = ({
+                          username: req.body.username2,
+                          password: hashedPassword,
+                        });
+                          await Students.findByIdAndUpdate(id,newUser,{ userFindModify: false })
+                          res.status(200).send(
+                          "estudiante actualizado"
+                          )
+                  }else res.status(204).send("contraseña invalida")
+                })
+              } else res.status(204).send("nuevo ususario ya existe")
+            })
+          }else   bcrypt.compare(req.body.password, user.password, async (err, result) => {
+            if (err) throw err;
+            if (result === true) {
+                  //res.status(200).send("contraseña validada")
+                  const hashedPassword = await bcrypt.hash(req.body.password2, 10);
+                  const newUser = ({
+                    username: req.body.username2,
+                    password: hashedPassword,
+                  });
+                    await Students.findByIdAndUpdate(id,newUser,{ userFindModify: false })
+                    res.status(200).send(
+                    "estudiante actualizado"
+                    )
+            }else res.status(204).send("contraseña invalida")
+          })
+          
+        }else res.status(204).send("ususario no existente")   
+      })
+    } else res.status(204).send("ususario o id inexistente")
+  })
 
-          await Students.findByIdAndUpdate(id,newUser,{ userFindModify: false })
-          res.status(200).send(
-           "estudiante actualizado"
-          )
-        }
-      });
-    }else
-    res.status(204).send(
-    "estudiante no encontrado"
-    )
-  });
-
+  
 module.exports = router;
