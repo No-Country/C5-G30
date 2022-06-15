@@ -5,32 +5,34 @@ import Swal from "sweetalert2";
 import SelectProvince from "./SelectProvince";
 import { useDispatch } from "react-redux";
 import { getStudent } from "../../reducer/actions";
+import { useState } from "react";
+
 
 const DataUser = ({ data, email, id }) => {
+  const [disabled, setdisabled] = useState(true);
   const dispatch = useDispatch();
   let dataUser = data;
 
-  const inputsDisabled = () => {
+  function inputsDisabled () {
     let $input = document.querySelectorAll("input");
-    let $select = document.querySelectorAll("select");
+    setdisabled(false) 
     $input.forEach((a, i) => {
       if (i > 7) {
         return;
       }
       a.disabled = false;
     });
-    $select.forEach((a) => {
-      a.disabled = false;
-    });
     document.querySelector("#edit-data-user").style.display = "none";
     document.querySelector("#submit-data-user").style.display = "block";
   };
+
+  
 
   const inputsDisabledOn = () => {
     let $input = document.querySelectorAll("input");
     let $select = document.querySelectorAll("select");
     $input.forEach((a, i) => {
-      if (i > 7) {
+      if (i > 8) {
         return;
       }
       a.disabled = true;
@@ -40,6 +42,8 @@ const DataUser = ({ data, email, id }) => {
     });
     document.querySelector("#edit-data-user").style.display = "block";
     document.querySelector("#submit-data-user").style.display = "none";
+    setdisabled(true) 
+
   };
 
   const handleClick = (e) => {
@@ -75,15 +79,17 @@ const DataUser = ({ data, email, id }) => {
       firstName: $form.elements.firstName.value,
       lastName: $form.elements.lastName.value,
       dni: $form.elements.dni.value,
-      email: $form.elements.email.value,
+      username: $form.elements.email.value,
       phone: $form.elements.phone.value,
       address: $form.elements.address.value,
       province: $form.elements.province.value,
       avatar : avatar.avatar,
-      cohorte : avatar.cohorte
+      cohorte : avatar.cohorte,
+      dateNac : $form.elements.dateBirth.value
     };
     apiPut(valueForm);
   };
+
 
   return (
     <div className="data-user-container">
@@ -125,7 +131,7 @@ const DataUser = ({ data, email, id }) => {
         </div>
         <div className="input-profile">
           <label htmlFor="date">Fecha de Nacimiento</label>
-          <input type="date" id="date" name="dateBirth" disabled />
+          <input type="date" id="date" name="dateBirth" defaultValue={dataUser.dateNac} disabled />
         </div>
         <div className="input-profile">
           <label htmlFor="email">Email</label>
@@ -157,7 +163,7 @@ const DataUser = ({ data, email, id }) => {
             defaultValue={dataUser.address}
           />
         </div>
-        <SelectProvince province={dataUser.province} />
+        <SelectProvince province={dataUser.province} disabled={disabled} />
         <div className="button-container">
           <button id="edit-data-user" onClick={handleClick}>
             Editar

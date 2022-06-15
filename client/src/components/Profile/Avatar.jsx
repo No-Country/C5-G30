@@ -50,7 +50,7 @@ const Avatar = () => {
     <div className="avatar-container">
       <div className="image-avatar-contain">
         <img
-          src={ estado.student.avatar !== "" ? estado.student.avatar : '/default-image-avatar.jpg' }
+          src={ estado.student.avatar ? estado.student.avatar : '/default-image-avatar.jpg' }
           alt="foto de perfil"
           id="image-avatar"
         />

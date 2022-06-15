@@ -3,9 +3,11 @@ import "../../styles/topBar.css";
 import { Link } from "react-router-dom";
 import { useSelector , useDispatch } from "react-redux"
 import { logout } from "../../actions/authLogin";
+import { useEffect } from "react";
 
 const Topbar = ({user}) => {
   const student = useSelector(state => state.auth.student)
+  const users = useSelector(state => state.auth.user)
   const dispatch = useDispatch()
   const handleDisplay = () => {
     let display = document.querySelector(".top-bar");
@@ -25,6 +27,9 @@ const Topbar = ({user}) => {
   const handleClick = (e)=>{
     dispatch(logout())
   }
+  useEffect(() => {
+
+  }, [student]);
 
   return (
     <div className="top-bar-contain">
@@ -36,10 +41,10 @@ const Topbar = ({user}) => {
         <div className="avatar-contain">
           <img
             className="imag-avatar"
-            src={ student.avatar !== "" ? student.avatar : '/default-image-avatar.jpg'}
+            src={ student.avatar ? student.avatar : '/default-image-avatar.jpg'}
             alt=""
           />
-          <p>{student.firstName}</p>
+          <p>{student.firstName ? student.firstName : users.email}</p>
         </div>
         <ul className="list-btn-navbar">
           <li className="item-navbar">

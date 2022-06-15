@@ -1,6 +1,6 @@
 import axios from "axios";
 import { types } from "../types/types";
-
+import formatDate from '../helpers/formatDate'
 
 ///////////////////ESTUDIANTES///////////////////////////
 
@@ -24,8 +24,10 @@ export function getStudent(student) {
       phone : student.phone,
       address : student.address,
       province : student.province,
-      avatar : student.avatar
+      avatar : student.avatar,
+      dateNac : formatDate(student.dateNac)
     }
+    
     sessionStorage.setItem('student', JSON.stringify(save))
     return dispatch({
       type: types.GET_STUDENT,

@@ -15,21 +15,26 @@ export default function LoginInRegister({ isLogin }) {
     password: "",
     password2: "",
   });
-
   const estado = useSelector((state) => state);
+
   const HandleSubmit = async (e) => {
     e.preventDefault();
     let keyword ={
       username : e.target[0].value,
       password : e.target[1].value
     }
-    let data = await UseFetchPost(`${host.development}/stu/login`, keyword)
-    console.log(data)
-    if(data.status === 200){
-      dispatch(startLogin(data.data))
-    }
-    if (estado.auth.user.email !== "" && estado.auth.user.id !== "" ) {
-      navigate('/')
+    if (isLogin) {
+      let data = await UseFetchPost(`${host.development}/stu/login`, keyword)
+      if(data.status === 200){
+        dispatch(startLogin(data.data))
+        navigate('/')
+      }
+        
+    } else{
+      let data = await UseFetchPost(`${host.development}/stu/register`, keyword)
+      if(data.status === 200){
+        navigate('/login')
+      }
     }
     
   };
