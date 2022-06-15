@@ -4,6 +4,7 @@ const { Schema } = require('mongoose');
 const students = new Schema({
     firstName: { type: String, require: false },
     lastName: { type: String, require: false },
+    dateNac: { type: Date, require: false },
     dni: { type: Number, require: false },
     address: { type: String, require: false },
     country: { type: String, require: false },

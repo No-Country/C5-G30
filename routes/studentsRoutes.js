@@ -23,22 +23,11 @@ router.put("/editAvatar/:id", upload.single('avatar') ,uploadAvatar)
 router.post("/login", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
       if (err) throw err;
-      if (!user) res.send("No User Exists");
+      console.log(user)
+      if (!user) res.status(204).send("No User Exists");
       else {
         req.logIn(user, (err) => {
           if (err) throw err;
-          // res.send("Successfully Authenticated");
-           
-          // function generateAccessToken(user) {
-          //       return jwt.sign(user.id, "secret")
-          //     }
-          //   const accessToken = generateAccessToken(user)
-          // res.status(200).json({
-          //   msg : "Successfully Authenticated",
-          //   token : accessToken,
-          //   data : req.user
-          // });
-          
           let data ={
             id : user._id
           }
@@ -61,7 +50,7 @@ router.post("/login", (req, res, next) => {
   router.post("/register", (req, res) => {
     Students.findOne({ username: req.body.username }, async (err, doc) => {
       if (err) throw err;
-      if (doc) res.send("User Already Exists");
+      if (doc) res.status(204).send("User Already Exists");
       if (!doc) {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
   
@@ -70,9 +59,39 @@ router.post("/login", (req, res, next) => {
           password: hashedPassword,
         });
         await newUser.save();
-        res.send("User Created");
+        res.status(200).send("User Created");
       }
     });
   });
   
+  router.put("/editUser/:idStudent", async (req, res) => {
+    const id=req.params.idStudent
+    console.log(id)
+    const student=await Students.findById(id)
+    if(student){
+      Students.findOne({ username: req.body.username }, async (err, doc) => {
+        if (err) throw err;
+        if (doc) res.status(204).send(
+          "User Already Exists"
+        );
+        if (!doc) {
+          const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    
+          const newUser = ({
+            username: req.body.username,
+            password: hashedPassword,
+          });
+
+          await Students.findByIdAndUpdate(id,newUser,{ userFindModify: false })
+          res.status(200).send(
+           "estudiante actualizado"
+          )
+        }
+      });
+    }else
+    res.status(204).send(
+    "estudiante no encontrado"
+    )
+  });
+
 module.exports = router;

@@ -40,12 +40,13 @@ let path = require('path')
 }
 
 const editStudents = async (req, res, next) => {
-  const { firstName, lastName, dni, address, country, province, username, phone, status, cohorte} = req.body;
+  const { firstName, lastName, dni,dateNac, address, country, province, username, phone, status, cohorte} = req.body;
   
   const newStudent = {
     firstName: firstName,
     lastName: lastName,
     dni: dni,
+    dateNac:dateNac,
     address: address,
     country: country,
     province: province,
@@ -58,6 +59,7 @@ const editStudents = async (req, res, next) => {
   //const imagen=req.files.variable
 
   try {
+    
     await Students.findByIdAndUpdate(req.params.id,newStudent,{ userFindModify: false })
     res.status(200).json({
       msg: "usuario actualizado"
@@ -93,11 +95,6 @@ const uploadAvatar = async (req, res, next) => {
 
 const getStudents = async (req, res) => {
   const students = await Students.find()
-  //res.send(students)
-  // res.json({
-  //   students: students
-  // })
-
 
   try {
     await Students.find({}, function (err, students) {
@@ -106,11 +103,7 @@ const getStudents = async (req, res) => {
           students: students
         })
       })
-      // Image.populate(students, { path: "imagen" }, function (err, student) {
-      //   res.status(200).json({
-      //     student: student
-      //   })
-      // })
+
     })
   } catch (error) {
     console.log(error)
@@ -151,30 +144,8 @@ const getStudentsId = async (req, res) => {
     //    error:"ususario no encontrado"
     // })
   }
-
-  // verifyToken(req,res)
-  //   jwt.verify(req.token, "secret", async (err, authData) => {
-  //     if (err) {
-  //       //res.sendStatus(403)
-  //       return res.status(403).json({error:"no existe token o es invalido"})
-  //     } else {
-  //       try {
-  //         await Students.findById(req.params.id, {}, function (err, students) {
-  //           Materia.populate(students, { path: "materias" }, function (err, students) {
-  //             res.json({
-  //               students: students
-  //             })
-  //           })
-  //         })
-  //       } catch (error) {
-  //         console.log(error,"no existe el buscado")
-  //       }
-
-  //     }
-  //   })  
+ 
 }
-
-
 
 const addMateriaStu = async (req, res) => {
   await Students.findById(req.params.id)
@@ -198,8 +169,6 @@ const addMateriaStu = async (req, res) => {
     msg:"materia o estudiante no encontrado"
   })
 }
-
-
 
 module.exports = {
   addStudents,

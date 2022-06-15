@@ -24,6 +24,7 @@ export default function LoginInRegister({ isLogin }) {
       password : e.target[1].value
     }
     let data = await UseFetchPost(`${host.development}/stu/login`, keyword)
+    console.log(data)
     if(data.status === 200){
       dispatch(startLogin(data.data))
     }
