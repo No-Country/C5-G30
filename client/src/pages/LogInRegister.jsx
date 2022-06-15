@@ -1,48 +1,83 @@
 import React, { useState } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Log.css";
-import { useDispatch, useSelector } from 'react-redux'
-import { startLogin } from '../actions/authLogin'
+import { useDispatch } from "react-redux";
+import { startLogin } from "../actions/authLogin";
 import UseFetchPost from "../hooks/useFetchPost";
-import host from "../helpers/host"
+import host from "../helpers/host";
+import { validateLogin, validateRegister } from "../helpers/validatorForm";
+import { useEffect } from "react";
 
 export default function LoginInRegister({ isLogin }) {
   let navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [errorMsg, seterrorMsg] = useState({
+    emailError: "",
+    passError: "",
+    RepassError : "",
+    resError : ""
+  });
 
   const [form, SetForm] = useState({
     email: "",
     password: "",
     password2: "",
   });
-  const estado = useSelector((state) => state);
-
-  const HandleSubmit = async (e) => {
-    e.preventDefault();
-    let keyword ={
-      username : e.target[0].value,
-      password : e.target[1].value
-    }
+  const postApi = async (keyword)=>{
     if (isLogin) {
-      let data = await UseFetchPost(`${host.development}/stu/login`, keyword)
-      if(data.status === 200){
-        dispatch(startLogin(data.data))
-        navigate('/')
+      let data = await UseFetchPost(`${host.development}/stu/login`, keyword);
+      if (data.status === 200) {
+        dispatch(startLogin(data.data));
+        navigate("/");
+      } else {
+        seterrorMsg({resError : "Contraseña o email incorrectos"})
       }
-        
-    } else{
-      let data = await UseFetchPost(`${host.development}/stu/register`, keyword)
-      if(data.status === 200){
-        navigate('/login')
+    } else {
+      let data = await UseFetchPost(
+        `${host.development}/stu/register`,
+        keyword
+      );
+      if (data.status === 200) {
+        navigate("/login");
       }
     }
-    
-  };
-
+  }
   const HandleChange = (e) => {
     e.preventDefault();
     SetForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  const handleBlur= () => {
+    isLogin ? validateLogin(form.email, form.password, errorMsg, seterrorMsg) : validateRegister(form.email, form.password, form.password2, errorMsg, seterrorMsg)
+    isLogin ? navigate("/login") : navigate("/register");
+  };
+
+  const HandleSubmit = (e) => {
+    let keyword = {
+      username: e.target[0].value,
+      password: e.target[1].value,
+      password2: e.target[2].value,
+    };
+    let error = isLogin ? validateLogin(
+      keyword.username,
+      keyword.password,
+      errorMsg,
+      seterrorMsg
+    ) : validateRegister(keyword.username,
+      keyword.password,
+      keyword.password2,
+      errorMsg,
+      seterrorMsg);
+    isLogin ? navigate("/login") : navigate("/register");
+    e.preventDefault();
+
+    if (!error.includes(true)) {
+      postApi(keyword)
+    }
+  };
+  console.log(errorMsg.emailError.length)
+  useEffect(() => {}, [errorMsg]);
 
   return (
     <div id="login-background">
@@ -53,38 +88,44 @@ export default function LoginInRegister({ isLogin }) {
             <h6>Email</h6>
             <input
               type="text"
-              id="log-input-field"
+              className={`log-input-field ${ errorMsg.emailError.length > 0 ? "invalid" : ""}`}
               name="email"
               value={form.email}
+              onBlur={handleBlur}
               onChange={(e) => HandleChange(e)}
             />
+            <span className="danger-msg">{errorMsg.emailError}</span>
           </div>
           <div id="log-input-field-holder">
             <h6>Contraseña</h6>
             <input
               type="password"
-              id="log-input-field"
+              className={`log-input-field ${ errorMsg.passError.length > 0 ? "invalid" : ""}`}
               name="password"
               value={form.password}
               onChange={(e) => HandleChange(e)}
+              onBlur={handleBlur}
             />
+            <span className="danger-msg">{errorMsg.passError}</span>
           </div>
           {!isLogin ? (
             <div id="log-input-field-holder">
               <h6>Confirmar contraseña</h6>
               <input
                 type="password"
-                id="log-input-field"
+                className={`log-input-field ${ errorMsg.RepassError.length > 0 ? "invalid" : ""}`}
                 name="password2"
                 value={form.password2}
                 onChange={(e) => HandleChange(e)}
+                onBlur={handleBlur}
               />
+              <span className="danger-msg">{errorMsg.RepassError}</span>
             </div>
           ) : (
             ""
           )}
         </div>
-
+        <span className="danger-msg">{errorMsg.resError}</span>
         <input
           type="submit"
           value={isLogin ? "Iniciar sesion" : "Registrate"}

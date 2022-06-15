@@ -6,8 +6,10 @@ import UseFetchPost from "../../hooks/useFetchPost";
 import Swal from "sweetalert2";
 import UseFetch from "../../hooks/useFetch";
 import { getMaterias } from "../../reducer/actions";
+
 const ListContain = ({data, subjectsInscripte}) => {
   const user = useSelector((state) => state.auth.user);
+  const student = useSelector((state) => state.auth.student);
   const dispatch = useDispatch();
   let actionSubject;
 
@@ -21,15 +23,24 @@ const ListContain = ({data, subjectsInscripte}) => {
     const data = await UseFetch(`${host.development}/stu/getStudent/${user.id}`);
     dispatch(getMaterias(data.data.students.materias));
   }
+
   async function handleClink (){
     let idMateria = data._id
+    if (!student.status) {
+      Swal.fire({
+        icon: 'error',
+        title: `Completa tus datos antes de inscribirte`,
+        showConfirmButton: false,
+        timer: 1500
+      })
+      return
+    }
     let response = await UseFetchPost(`${host.development}/stu/addMateriaStu/${user.id}`, {idMateria})
-    if(response.data.msg === "Successfully Authenticated"){
+    if(response.data.msg === "Materia Asignada"){
       Swal.fire({
         icon: 'success',
         title: `Te has Inscripto correctamente a ${data.name}`,
-        showConfirmButton: false,
-        timer: 1500
+        
       })
       getData()
     }

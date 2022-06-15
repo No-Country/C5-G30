@@ -85,7 +85,8 @@ const DataUser = ({ data, email, id }) => {
       province: $form.elements.province.value,
       avatar : avatar.avatar,
       cohorte : avatar.cohorte,
-      dateNac : $form.elements.dateBirth.value
+      dateNac : $form.elements.dateBirth.value,
+      status : true
     };
     apiPut(valueForm);
   };

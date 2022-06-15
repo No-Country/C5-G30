@@ -25,7 +25,8 @@ export function getStudent(student) {
       address : student.address,
       province : student.province,
       avatar : student.avatar,
-      dateNac : formatDate(student.dateNac)
+      dateNac : student.dateNac ? formatDate(student.dateNac) : undefined,
+      status : student.status
     }
     
     sessionStorage.setItem('student', JSON.stringify(save))

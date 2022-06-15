@@ -74,7 +74,7 @@ const Dashboard = () => {
         <section className="dashboard-wrapper">
           <section className="main-section">
             <h2 className="main-title">Dashboard</h2>
-            { !subjects ? <span className="danger-new">No estas asignado una COHORTE/MATERIA</span> : ""}
+            { !student.status ? <span className="danger-new">No estas asignado una COHORTE/MATERIA, por favor completa primeros tus datos antes de inscribirte</span> : ""}
             <div className="dashboard-bubble">          
               <div className="bubble-container">
                 <h1>{student.cohorte}</h1>

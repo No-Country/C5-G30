@@ -8,6 +8,7 @@ import Sweet from 'sweetalert2'
 const Avatar = () => {
   const [File, setFile] = useState("");
   const estado = useSelector(state => state.auth)
+  
   const handleChange = () => {
     let $img = document.querySelector("#image-avatar");
     let $inputFile = document.querySelector("#avatar");
@@ -39,11 +40,16 @@ const Avatar = () => {
         timer: 1500,
       });
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+    })
+
   }
   const handleSubmit = (e)=>{
     e.preventDefault()
     apiPost(File)
+  
+    
   }
 
   return (

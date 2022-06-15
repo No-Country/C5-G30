@@ -64,3 +64,16 @@ li{
   text-decoration: none;
   list-style: none;
 }
+
+.danger-msg{
+  color: red;
+  font-weight: 500;
+  font-size: 0.8rem;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+
+.invalid{
+  border: 1px solid red;
+}
