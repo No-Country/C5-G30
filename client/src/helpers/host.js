@@ -1,5 +1,5 @@
 const host ={
-    development : "http://localhost:3001",
+    development : "https://aulamovil2022.onrender.com",
     production : ""
 }
 

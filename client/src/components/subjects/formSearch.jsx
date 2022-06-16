@@ -1,4 +1,5 @@
 import React from "react";
+import host from "../../helpers/host";
 import UseFetch from "../../hooks/useFetch";
 
 const FormSearch = ({setState, setKeyword}) => {
@@ -9,7 +10,7 @@ const FormSearch = ({setState, setKeyword}) => {
         setState(newSubjects)
     }
     const apiCall = async()=>{
-        let data = await UseFetch('http://localhost:3001/mat/getMateria')
+        let data = await UseFetch(`${host.development}/mat/getMateria`)
         return data
     }
     const handleSubmit = async (e)=>{
