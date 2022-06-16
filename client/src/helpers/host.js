@@ -1,5 +1,5 @@
 const host ={
-    development : "http://localhost:3001",
+    development : "http://localhost:3000",
     production : ""
 }
 
