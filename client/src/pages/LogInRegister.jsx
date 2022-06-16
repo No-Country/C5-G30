@@ -27,11 +27,15 @@ export default function LoginInRegister({ isLogin }) {
   const postApi = async (keyword)=>{
     if (isLogin) {
       let data = await UseFetchPost(`${host.development}/stu/login`, keyword);
+      console.log(data)
       if (data.status === 200) {
         dispatch(startLogin(data.data));
         navigate("/");
       } else {
-        seterrorMsg({resError : "Contraseña o email incorrectos"})
+        seterrorMsg({
+          ...errorMsg,
+          resError : "Contraseña o email incorrectos"
+        })
       }
     } else {
       let data = await UseFetchPost(
@@ -76,7 +80,6 @@ export default function LoginInRegister({ isLogin }) {
       postApi(keyword)
     }
   };
-  console.log(errorMsg.emailError.length)
   useEffect(() => {}, [errorMsg]);
 
   return (
