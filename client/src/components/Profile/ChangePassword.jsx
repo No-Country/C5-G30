@@ -10,9 +10,15 @@ import {
   validatePasswords,
 } from "../../helpers/validatorForm";
 import { getStudent } from "../../reducer/actions";
+import { useEffect } from "react";
 
-
-const ChangePassword = ({id, email}) => {
+const ChangePassword = ({
+  id,
+  email,
+  setLoader,
+  scrollEnable,
+  scrollDisabled,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,7 +35,17 @@ const ChangePassword = ({id, email}) => {
     resErr: "",
   });
 
+  const [scrollLoad, setscrollLoad] = useState("0px");
+
   const [ExistError, setExistError] = useState([false, false, false, false]);
+
+  const handleScroll = () => {
+    window.addEventListener("scroll", () => {
+      setscrollLoad(`${window.scrollY}px`);
+    });
+  };
+
+  handleScroll();
 
   const handleBlur = (e) => {
     ValidateChangePassword(
@@ -44,6 +60,7 @@ const ChangePassword = ({id, email}) => {
       ...Form,
       [name]: e.target.value,
     });
+    navigate(`/user/profile/${id}`);
   };
 
   const inputsDisabledPassowrd = () => {
@@ -76,6 +93,8 @@ const ChangePassword = ({id, email}) => {
     }
   };
   const handleSubmit = (e) => {
+    setLoader(true);
+    scrollDisabled();
     e.preventDefault();
     validatePasswords(Form, Errors, setErrors, ExistError, setExistError);
     let valuesObj = Object.values(Form);
@@ -84,37 +103,56 @@ const ChangePassword = ({id, email}) => {
         ...Errors,
         resErr: "Complete todos los campos",
       });
-      // navigate(`/user/profile/${id}`);
+
+      setLoader(false);
+      scrollEnable();
+      navigate(`/user/profile/${id}`);
       return;
     }
 
-    let values ={
-        username : email,
-        username2 : email,
-        password : Form.password,
-        password2 : Form.newPassword
+    let values = {
+      username: email,
+      username2: email,
+      password: Form.password,
+      password2: Form.newPassword,
+    };
+    apiPut(values);
+  };
+  const apiPut = async (values) => {
+    let resolve = await UseFetchPost(
+      `${host.development}/stu/editUser/${id}`,
+      values,
+      "put"
+    );
+    if (resolve.data === "estudiante actualizado") {
+        
+      Swal.fire({
+        icon: "success",
+        title: `Datos actualizados correctamente`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      inputsDisabledOn();
+      dispatch(getStudent(values));
+      setLoader(false);
+      scrollEnable();
+      return
     }
-    apiPut(values)
-};
-const apiPut = async (values) => {
-  let resolve = await UseFetchPost(
-    `${host.development}/stu/editUser/${id}`,
-    values,
-    "put"
-  );
-  console.log(resolve)
-  if (resolve.data === "estudiante actualizado") {
-    Swal.fire({
-      icon: "success",
-      title: `Datos actualizados correctamente`,
-      showConfirmButton: false,
-      timer: 1500,
-    });
-    inputsDisabledOn();
-    dispatch(getStudent(values));
-  }
-};
 
+    setErrors({
+        ...Errors,
+        resErr: "Contraseña incorrecta",
+      })
+    setLoader(false);
+    scrollEnable();
+  };
+  useEffect(() => {
+    let load = document.querySelector('.loader-container')
+    if (load) {
+      load.style.top = scrollLoad
+    }
+    
+  }, [Errors]);
   return (
     <div className="form-password">
       <form className="password-form" onSubmit={handleSubmit}>

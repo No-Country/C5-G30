@@ -10,8 +10,14 @@ import { validateProfile } from "../../helpers/validatorForm";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-const DataUser = ({ data, email, id }) => {
+const DataUser = ({
+  data,
+  email,
+  id,
+  setLoader,
+  scrollEnable,
+  scrollDisabled,
+}) => {
   const [Error, setError] = useState({
     errFirstName: "",
     errLastName: "",
@@ -34,6 +40,7 @@ const DataUser = ({ data, email, id }) => {
     false,
   ]);
   const [disabled, setdisabled] = useState(true);
+  const [scrollLoad, setscrollLoad] = useState('0px');
   const dispatch = useDispatch();
   let dataUser = data;
   const navigate = useNavigate();
@@ -82,6 +89,8 @@ const DataUser = ({ data, email, id }) => {
       "put"
     );
     if (resolve.data.msg === "usuario actualizado") {
+      setLoader(false)
+      scrollEnable();
       Swal.fire({
         icon: "success",
         title: `Datos actualizados correctamente`,
@@ -90,10 +99,22 @@ const DataUser = ({ data, email, id }) => {
       });
       inputsDisabledOn();
       dispatch(getStudent(values));
+      navigate(`/user/profile/${id}`);
+      return
     }
+    setLoader(false)
+    scrollEnable();
+    
   };
-
+  const handleScroll = () => {
+    window.addEventListener('scroll', ()=>{
+      setscrollLoad(`${window.scrollY}px`)
+    })
+  };
+  handleScroll()
   const handleSubmit = (e) => {
+    setLoader(true);
+    scrollDisabled();
     let avatar = JSON.parse(sessionStorage.getItem("student"));
     e.preventDefault();
     let $form = document.querySelector(".data-form");
@@ -135,6 +156,8 @@ const DataUser = ({ data, email, id }) => {
         ...Error,
         resError: "Complete todos los campos",
       });
+      setLoader(false);
+      scrollEnable();
       navigate(`/user/profile/${id}`);
       return;
     }
@@ -151,10 +174,16 @@ const DataUser = ({ data, email, id }) => {
     validateProfile(e.target, Error, setError, ExistError, setExistError);
     navigate(`/user/profile/${id}`);
   };
-
-  useEffect(() => {}, [Error]);
+  
+  useEffect(() => {
+    let load = document.querySelector('.loader-container')
+    if (load) {
+      load.style.top = scrollLoad
+    }
+    
+  }, [Error]);
   return (
-    <div className="data-user-container">
+    <div className="data-user-container" id="data-user">
       <form
         action=""
         method="POST"
