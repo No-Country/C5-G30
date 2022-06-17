@@ -8,31 +8,39 @@ import { getStudent } from "../../reducer/actions";
 import { useState } from "react";
 import { validateProfile } from "../../helpers/validatorForm";
 import { useEffect } from "react";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 
 const DataUser = ({ data, email, id }) => {
-
   const [Error, setError] = useState({
-    errFirstName : "",
-    errLastName : "",
-    errDni : "",
-    errUsername : "",
-    errPhone : "",
-    errAddress : "",
-    errProvice : "",
-    errdateNac : "",
-    resError : ""
+    errFirstName: "",
+    errLastName: "",
+    errDni: "",
+    errUsername: "",
+    errPhone: "",
+    errAddress: "",
+    errProvice: "",
+    errdateNac: "",
+    resError: "",
   });
-  const [ExistError, setExistError] = useState([false, false, false, false, false, false, false, false]);
+  const [ExistError, setExistError] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const [disabled, setdisabled] = useState(true);
   const dispatch = useDispatch();
   let dataUser = data;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  function inputsDisabled () {
+  function inputsDisabled() {
     let $input = document.querySelectorAll("input");
-    setdisabled(false) 
+    setdisabled(false);
     $input.forEach((a, i) => {
       if (i > 7) {
         return;
@@ -41,15 +49,13 @@ const DataUser = ({ data, email, id }) => {
     });
     document.querySelector("#edit-data-user").style.display = "none";
     document.querySelector("#submit-data-user").style.display = "block";
-  };
-
-  
+  }
 
   const inputsDisabledOn = () => {
     let $input = document.querySelectorAll("input");
     let $select = document.querySelectorAll("select");
     $input.forEach((a, i) => {
-      if (i > 8) {
+      if (i > 7) {
         return;
       }
       a.disabled = true;
@@ -59,8 +65,7 @@ const DataUser = ({ data, email, id }) => {
     });
     document.querySelector("#edit-data-user").style.display = "block";
     document.querySelector("#submit-data-user").style.display = "none";
-    setdisabled(true) 
-
+    setdisabled(true);
   };
 
   const handleClick = (e) => {
@@ -83,13 +88,13 @@ const DataUser = ({ data, email, id }) => {
         showConfirmButton: false,
         timer: 1500,
       });
-      inputsDisabledOn()
-      dispatch(getStudent(values))
+      inputsDisabledOn();
+      dispatch(getStudent(values));
     }
   };
 
   const handleSubmit = (e) => {
-    let avatar = JSON.parse(sessionStorage.getItem('student'))
+    let avatar = JSON.parse(sessionStorage.getItem("student"));
     e.preventDefault();
     let $form = document.querySelector(".data-form");
     let valueForm = {
@@ -100,57 +105,54 @@ const DataUser = ({ data, email, id }) => {
       phone: $form.elements.phone.value,
       address: $form.elements.address.value,
       province: $form.elements.province.value,
-      avatar : avatar.avatar,
-      cohorte : avatar.cohorte,
-      dateNac : $form.elements.dateBirth.value,
-      status : true
+      avatar: avatar.avatar,
+      cohorte: avatar.cohorte,
+      dateNac: $form.elements.dateBirth.value,
+      status: true,
     };
-    let valuesObj = Object.values(valueForm)
+    let valuesObj = Object.values(valueForm);
 
     if (valueForm.province !== "") {
       setError({
         ...Error,
-        errProvice : ""
-      })
-      let allError = ExistError
-      allError[7] = false
-      setExistError(allError)
-    } 
+        errProvice: "",
+      });
+      let allError = ExistError;
+      allError[7] = false;
+      setExistError(allError);
+    }
     if (ExistError.includes(true) || valuesObj.includes("")) {
       if (valueForm.province === "") {
         setError({
           ...Error,
-          errProvince : "Ingrese su provincia"
-        })
-        let allError = ExistError
-        allError[7] = true
-        setExistError(allError)
+          errProvince: "Ingrese su provincia",
+        });
+        let allError = ExistError;
+        allError[7] = true;
+        setExistError(allError);
       }
       setError({
         ...Error,
-        resError : "Complete todos los campos"
-      })
-      navigate(`/user/profile/${id}`)
-      return
+        resError: "Complete todos los campos",
+      });
+      navigate(`/user/profile/${id}`);
+      return;
     }
 
     setError({
       ...Error,
-      resError : ""
-    })
+      resError: "",
+    });
 
     apiPut(valueForm);
-    
   };
 
-  const handleBlur = (e)=>{
-    validateProfile(e.target, Error, setError,ExistError, setExistError)
-    navigate(`/user/profile/${id}`)
-  }
+  const handleBlur = (e) => {
+    validateProfile(e.target, Error, setError, ExistError, setExistError);
+    navigate(`/user/profile/${id}`);
+  };
 
-  useEffect(() => {
-    
-  }, [Error]);
+  useEffect(() => {}, [Error]);
   return (
     <div className="data-user-container">
       <form
@@ -165,6 +167,7 @@ const DataUser = ({ data, email, id }) => {
             type="text"
             id="name"
             name="firstName"
+            className={`${Error.errFirstName.length > 0 ? "invalid" : ""}`}
             disabled
             defaultValue={dataUser.firstName}
             onBlur={handleBlur}
@@ -177,6 +180,7 @@ const DataUser = ({ data, email, id }) => {
             type="text"
             id="surname"
             name="lastName"
+            className={`${Error.errLastName.length > 0 ? "invalid" : ""}`}
             disabled
             defaultValue={dataUser.lastName}
             onBlur={handleBlur}
@@ -186,6 +190,7 @@ const DataUser = ({ data, email, id }) => {
         <div className="input-profile">
           <label htmlFor="DNI">Nº Documento</label>
           <input
+            className={`${Error.errDni.length > 0 ? "invalid" : ""}`}
             type="number"
             id="DNI"
             name="dni"
@@ -197,12 +202,21 @@ const DataUser = ({ data, email, id }) => {
         </div>
         <div className="input-profile">
           <label htmlFor="date">Fecha de Nacimiento</label>
-          <input type="date" id="date" name="dateBirth" defaultValue={dataUser.dateNac} disabled onBlur={handleBlur}/>
+          <input
+            className={`${Error.errdateNac.length > 0 ? "invalid" : ""}`}
+            type="date"
+            id="date"
+            name="dateBirth"
+            defaultValue={dataUser.dateNac}
+            disabled
+            onBlur={handleBlur}
+          />
           <span className="danger-msg">{Error.errdateNac}</span>
         </div>
         <div className="input-profile">
           <label htmlFor="email">Email</label>
           <input
+            className={`${Error.errUsername.length > 0 ? "invalid" : ""}`}
             type="text"
             id="email"
             name="email"
@@ -215,6 +229,7 @@ const DataUser = ({ data, email, id }) => {
         <div className="input-profile">
           <label htmlFor="phone">Télefono</label>
           <input
+            className={`${Error.errPhone.length > 0 ? "invalid" : ""}`}
             type="number"
             id="phone"
             name="phone"
@@ -227,6 +242,7 @@ const DataUser = ({ data, email, id }) => {
         <div className="input-profile">
           <label htmlFor="address">Dirección</label>
           <input
+            className={`${Error.errAddress.length > 0 ? "invalid" : ""}`}
             type="text"
             id="address"
             name="address"
@@ -236,9 +252,12 @@ const DataUser = ({ data, email, id }) => {
           />
           <span className="danger-msg">{Error.errAddress}</span>
         </div>
-        <SelectProvince province={dataUser.province} disabled={disabled} selectError={Error.errProvice}/>
+        <SelectProvince
+          province={dataUser.province}
+          disabled={disabled}
+          selectError={Error.errProvice}
+        />
         <div className="button-container">
-
           <button id="edit-data-user" onClick={handleClick}>
             Editar
           </button>

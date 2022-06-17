@@ -278,3 +278,48 @@ const validateDate= (value)=>{
     }
     return [msg, error]
 }
+
+
+export const ValidateChangePassword =(type, state, setState, exist, setExist)=>{
+    let errorsMsg = state
+    let errorExist = exist
+
+    switch (true) {
+        case type.name === "password":
+            let solu = passwordF(type.value)
+            errorsMsg.errPass = solu[0]
+            errorExist[0] = solu[1]  
+            break;
+        case type.name === "newPassword":
+            let solu2 = passwordF(type.value)
+            errorsMsg.errNewPass = solu2[0]
+            errorExist[1] = solu2[1]  
+            break;
+        case type.name === "rePassword":
+            let solu3 = passwordF(type.value)
+            errorsMsg.errRePass= solu3[0]
+            errorExist[2] = solu3[1]  
+            break;
+    
+        default:
+            break;
+    }
+
+    setState(errorsMsg)
+    setExist(errorExist)
+}
+
+export const validatePasswords =(type, state, setState, exist, setExist)=>{
+    let errorsMsg = state
+    let errorExist = exist
+    if (type.newPassword !== type.rePassword) {
+        errorsMsg.resErr = "Las contraseñas no coinciden"
+        errorExist[3] = true
+    } else{
+        errorsMsg.resErr = ""
+        errorExist[3] = false
+    }
+
+    setState(errorsMsg)
+    setExist(errorExist)
+}

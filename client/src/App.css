@@ -71,8 +71,6 @@ li{
   font-size: 0.8rem;
   padding-top: 8px;
   padding-bottom: 8px;
-  position: absolute;
-  bottom: -15px;
 }
 
 .danger-msg-form{
@@ -81,7 +79,6 @@ li{
   font-size: 0.8rem;
   padding-top: 8px;
   padding-bottom: 8px;
-  position: absolute;
   bottom: 50%;
   right: 0px;
   width: 100%;
@@ -89,12 +86,12 @@ li{
 }
 
 .invalid{
-  border: 1px solid red;
+  border: 1px solid red !important;
 }
 
 @media (min-width : 744px) {
   .danger-msg{
-    bottom: -10px;
+    bottom: -40px;
   }
 }
 

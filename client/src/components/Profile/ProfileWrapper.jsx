@@ -12,7 +12,7 @@ const ProfileWrapper = ({dataUser, email, id}) => {
       <DataUser data={dataUser} email={email} id={id}/>
 
       <h2>Cambiar Contraseña</h2>
-      <ChangePassword />
+      <ChangePassword id={id} email={email}/>
     </>
   );
 };
