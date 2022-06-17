@@ -1,6 +1,6 @@
 
 const host ={
-    development : "https://aulavirtualnc.herokuapp.com",
+    development : "https://back-forked-no-country.herokuapp.com",
     production : ""
 }
 
