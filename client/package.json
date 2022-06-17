@@ -22,7 +22,7 @@
     "sweetalert2-react-content": "^4.2.0"
   },
   "scripts": {
-    "start": "react-scripts gstart",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
