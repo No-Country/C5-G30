@@ -60,15 +60,15 @@ const DataUser = ({
 
   const inputsDisabledOn = () => {
     let $input = document.querySelectorAll("input");
-    let $select = document.querySelectorAll("select");
+    console.log($input)
     $input.forEach((a, i) => {
       if (i > 7) {
         return;
       }
-      a.disabled = true;
-    });
-    $select.forEach((a) => {
-      a.disabled = true;
+      if (i >1 ) {
+         a.disabled = true;
+      }
+     
     });
     document.querySelector("#edit-data-user").style.display = "block";
     document.querySelector("#submit-data-user").style.display = "none";
